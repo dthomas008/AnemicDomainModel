@@ -1,4 +1,4 @@
-﻿using Logic.Customers;
+using Logic.Customers;
 using Logic.Movies;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +18,7 @@ namespace Api.Utils
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddMvc();
 
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
@@ -29,6 +30,8 @@ namespace Api.Utils
         public void Configure(IApplicationBuilder app)
         {
             app.UseMiddleware<ExceptionHandler>();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
