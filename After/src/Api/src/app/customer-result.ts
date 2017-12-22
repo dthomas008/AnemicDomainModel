@@ -1,6 +1,6 @@
 
 
-    export interface Movie {
+    export interface Customer {
         id: number;
         name: string;
         email: string;
@@ -9,8 +9,8 @@
         moneySpent: number;
     }
 
-    export interface MovieResult {
-        result: Movie[];
+    export interface CustomerResult {
+        result: Customer[];
         errorMessage?: any;
         timeGenerated: Date;
     }

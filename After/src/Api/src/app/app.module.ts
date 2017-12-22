@@ -4,21 +4,21 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
-import { MovieListComponent } from './movie-list/movie-list.component';
-import { MovieService } from './movie.service';
+import { CustomerListComponent } from './customer-list/customer-list.component';
+import { CustomerService } from './customer.service';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovieListComponent
+    CustomerListComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule
   ],
-  providers: [MovieService, HttpClient],
+  providers: [CustomerService, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

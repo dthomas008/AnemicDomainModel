@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MovieResult, Movie } from './movie-result';
+import { CustomerResult, Customer } from './customer-result';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class MovieService {
+export class CustomerService {
 
 
 
   constructor(private http: HttpClient) { }
 
 
-  getMovies(): Observable<MovieResult> {
-    return this.http.get<MovieResult>('api/customers');
+  getCustomers(): Observable<CustomerResult> {
+    return this.http.get<CustomerResult>('api/customers');
 
 
   }
