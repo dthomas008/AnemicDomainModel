@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerService } from './customer.service';
 
-import {DataTableModule, SharedModule} from 'primeng/primeng';
+import {DataTableModule, SharedModule, ButtonModule} from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,7 @@ import {DataTableModule, SharedModule} from 'primeng/primeng';
     HttpClientModule,
     SharedModule,
     DataTableModule,
+    ButtonModule
 
   ],
   providers: [CustomerService, HttpClient],
