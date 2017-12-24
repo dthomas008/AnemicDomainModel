@@ -1,1 +1,6 @@
-<li *ngFor="let customer of customers?.result">{{customer.name}}</li>
+<li *ngFor="let customer of customers?.result ">
+  {{customer.id}} {{customer.name}} {{customer.email}}
+  {{customer.status}} {{customer.statusExpirationDate}} {{customer.moneySpent | currency:'USD':'symbol'}}
+</li>
+
+
