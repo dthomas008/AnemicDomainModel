@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer.service';
 import { CustomerResult, Customer } from '../customer-result';
+import {DataListModule} from 'primeng/primeng';
 
 @Component({
   selector: 'app-customer-list',

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -7,7 +8,7 @@ import { AppComponent } from './app.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerService } from './customer.service';
 
-
+import {DataTableModule, SharedModule} from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,11 @@ import { CustomerService } from './customer.service';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
+    DataTableModule,
+
   ],
   providers: [CustomerService, HttpClient],
   bootstrap: [AppComponent]

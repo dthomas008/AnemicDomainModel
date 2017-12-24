@@ -1,6 +1,10 @@
-<li *ngFor="let customer of customers?.result ">
+<!-- <li *ngFor="let customer of customers?.result ">
   {{customer.id}} {{customer.name}} {{customer.email}}
   {{customer.status}} {{customer.statusExpirationDate}} {{customer.moneySpent | currency:'USD':'symbol'}}
-</li>
-
-
+</li> -->
+<p-dataTable [value]="customers?.result">
+  <p-column field="id" header="Id"></p-column>
+  <p-column field="name" header="Name"></p-column>
+  <p-column field="email" header="Email"></p-column>
+  <p-column field="status" header="Status"></p-column>
+</p-dataTable>
