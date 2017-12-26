@@ -1,0 +1,48 @@
+<div class="ui-grid ui-grid-responsive ui-fluid">
+  <form novalidate (ngSubmit)="saveCustomer()" [formGroup]="customerForm">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label for="name">Name</label>
+      </div>
+      <div class="ui-grid-col-7">
+        <input pInputText id="name" placeholder="Name (required)" formControlName="name" />
+        <span class="help-block" *ngIf="(customerForm.get('name').touched || 
+        customerForm.get('name').dirty) && 
+        customerForm.get('name').errors">
+          <span *ngIf="customerForm.get('name').errors.required">
+            Please enter your name.
+          </span>
+          <span *ngIf="customerForm.get('name').errors.minlength">
+            The first name must be longer than 3 characters.
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label for="email">Email</label>
+      </div>
+      <div class="ui-grid-col-7">
+        <input pInputText id="email" placeholder="Email (required)" formControlName="email" />
+        <span class="help-block" *ngIf="(customerForm.get('email').touched || 
+        customerForm.get('email').dirty) && 
+        customerForm.get('email').errors">
+          <span *ngIf="customerForm.get('email').errors.required">
+            Please enter your email.
+          </span>
+          <span *ngIf="customerForm.get('email').errors.pattern">
+            Please enter a valid email.
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <p-footer>
+      <div class="ui-grid-row">
+        <!-- <button class="ui-grid-col-1" type="button" pButton icon="fa-close" label="Delete"></button> -->
+        <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button>
+      </div>
+    </p-footer>
+  </form>
+  <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+</div>

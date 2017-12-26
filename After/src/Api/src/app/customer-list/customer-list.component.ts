@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer.service';
-import { CustomerResult, Customer } from '../customer-result';
+import { CustomerResult, Customer, CreateCustomerDto } from '../customer-result';
 
 
 
@@ -12,16 +12,21 @@ import { CustomerResult, Customer } from '../customer-result';
 export class CustomerListComponent implements OnInit {
 
   customers: CustomerResult;
+  newCustomer: CreateCustomerDto;
+  displayDialog: boolean;
   constructor(private customerServ: CustomerService) { }
 
   ngOnInit() {
     this.customerServ.getCustomers().subscribe(
       data => {
-            this.customers = data;
-           }
-
-      
+        this.customers = data;
+      }
     );
+  }
+
+  addSimple() {
+    this.newCustomer = new CreateCustomerDto();
+    this.displayDialog = true;
   }
 
 }
