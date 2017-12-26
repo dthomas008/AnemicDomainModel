@@ -14,6 +14,9 @@ export class CustomerFormComponent implements OnInit {
 
   newCustomer: CreateCustomerDto;
   customerForm: FormGroup;
+  message: String;
+
+
   constructor(private fb: FormBuilder, private custServ: CustomerService) { }
 
   ngOnInit() {
@@ -32,11 +35,16 @@ export class CustomerFormComponent implements OnInit {
 
       this.custServ.createCustomer(c)
         .subscribe(
-        (data) => { 
+        (data) => {
           console.log(data);
-          this.onSaveComplete(); 
+          this.message = 'Save complete.';
+          this.onSaveComplete();
         },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.message = error.error.errorMessage;
+          this.onSaveComplete();
+        }
         );
     } else if (!this.customerForm.dirty) {
       this.onSaveComplete();
@@ -53,8 +61,11 @@ export class CustomerFormComponent implements OnInit {
     //   });
   }
   onSaveComplete(): void {
+
+    
     // Reset the form to clear the flags
     this.customerForm.reset();
+    
 
     // this.router.navigate(['/products']);
   }
