@@ -1,3 +1,5 @@
+Added Angular client to explore client side design patterns in line with this course.
+
 Welcome to Refactoring from Anemic Domain Model Towards a Rich One
 =====================
 
