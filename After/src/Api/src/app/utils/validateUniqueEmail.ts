@@ -1,0 +1,21 @@
+import { AbstractControl } from '@angular/forms';
+import { CustomerService } from '../customer.service';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs/Observable';
+
+
+export class ValidateUniqueEmail {
+    static createValidator(custService: CustomerService) {
+        return (control: AbstractControl) => {
+            return custService.uniqueEmail(control.value).map(res => {
+                console.log(res);
+                return null; // null means validation is successful
+            }).catch(ret => {
+                console.log(ret);
+               return [{emailTaken: ret.error.errorMessage}]; // must return an array of errors
+            });
+        };
+    }
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CreateCustomerDto } from '../customer-result';
 import { CustomerService } from '../customer.service';
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators, FormControlName } from '@angular/forms';
+import { ValidateUniqueEmail } from '../utils/validateUniqueEmail';
 
 
 
@@ -24,13 +25,13 @@ export class CustomerFormComponent implements OnInit {
       name: ['', [Validators.required,
       Validators.minLength(3),
       Validators.maxLength(50)]],
-      email: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')]]
+      email: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')], ValidateUniqueEmail.createValidator(this.custServ)]
     });
 
   }
   saveCustomer(cust: CreateCustomerDto) {
     if (this.customerForm.dirty && this.customerForm.valid) {
-      // Copy the form values over the product object values
+      // Copy the form values over the customer object values
       let c = Object.assign({}, cust, this.customerForm.value);
 
       this.custServ.createCustomer(c)
@@ -62,10 +63,10 @@ export class CustomerFormComponent implements OnInit {
   }
   onSaveComplete(): void {
 
-    
+
     // Reset the form to clear the flags
     this.customerForm.reset();
-    
+
 
     // this.router.navigate(['/products']);
   }

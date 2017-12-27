@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Api.Utils;
 using CSharpFunctionalExtensions;
@@ -82,13 +82,32 @@ namespace Api.Customers
             if (result.IsFailure)
                 return Error(result.Error);
 
-            if (_customerRepository.GetByEmail(emailOrError.Value) != null)
+            if (emailInUse(emailOrError))
                 return Error("Email is already in use: " + item.Email);
 
             var customer = new Customer(customerNameOrError.Value, emailOrError.Value);
             _customerRepository.Add(customer);
 
             return Ok();
+        }
+    [HttpPost]
+    [Route("email")]
+    public IActionResult EmailInUse([FromBody] CreateCustomerDto item)
+    { 
+      Result<Email> emailOrError = Email.Create(item.Email);
+      if (emailOrError.IsFailure)
+        return Error(emailOrError.Error);
+      if (emailInUse(emailOrError))
+        return Error("Email is already in use: " + item.Email);
+      return Ok();
+    }
+    private bool emailInUse(Result<Email> email) {
+        if (_customerRepository.GetByEmail(email.Value) != null)
+          return true;
+         else
+         {
+            return false;
+         }
         }
 
         [HttpPut]

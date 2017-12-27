@@ -1,10 +1,10 @@
 <div class="ui-grid ui-grid-responsive ui-fluid">
   <form novalidate (ngSubmit)="saveCustomer()" [formGroup]="customerForm">
     <div class="ui-grid-row">
-      <div class="ui-grid-col-4">
+      <div class="ui-grid-col-1">
         <label for="name">Name</label>
       </div>
-      <div class="ui-grid-col-7">
+      <div class="ui-grid-col-11">
         <input pInputText id="name" placeholder="Name (required)" formControlName="name" />
         <span class="help-block" *ngIf="(customerForm.get('name').touched || 
         customerForm.get('name').dirty) && 
@@ -19,10 +19,10 @@
       </div>
     </div>
     <div class="ui-grid-row">
-      <div class="ui-grid-col-4">
+      <div class="ui-grid-col-1">
         <label for="email">Email</label>
       </div>
-      <div class="ui-grid-col-7">
+      <div class="ui-grid-col-11">
         <input pInputText id="email" placeholder="Email (required)" formControlName="email" />
         <span class="help-block" *ngIf="(customerForm.get('email').touched || 
         customerForm.get('email').dirty) && 
@@ -34,13 +34,28 @@
             Please enter a valid email.
           </span>
         </span>
+        <div *ngIf="customerForm.get('email').status === 'PENDING'">
+            Checking...
+          </div>
+          <div *ngIf="customerForm.get('email').status === 'VALID'">
+             Email is available!
+          </div>
+        
+          <div *ngIf="customerForm.get('email').errors && customerForm.get('email').errors.emailTaken">
+             {{customerForm.get('email').errors.emailTaken}}
+          </div>
       </div>
     </div>
+    <br>Dirty: {{ customerForm.dirty }} 
+    <br>Touched: {{ customerForm.touched }}
+    <br>Valid: {{ customerForm.valid }}
+    <br>Value: {{ customerForm.value | json }}
+    <br>Email Errors: {{ customerForm.get('email').errors | json }}
 
     <p-footer>
       <div class="ui-grid-row">
         <!-- <button class="ui-grid-col-1" type="button" pButton icon="fa-close" label="Delete"></button> -->
-        <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button>
+        <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button><span class="ui-grid-col-11">&nbsp;</span>
       </div>
     </p-footer>
   </form>
