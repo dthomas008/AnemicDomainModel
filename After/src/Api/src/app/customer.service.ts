@@ -23,14 +23,7 @@ export class CustomerService {
   uniqueEmail(email: string): Observable<CustomerResult>  {
     const input = new CreateCustomerDto();
     input.email = email;
-    return this.http.post<CustomerResult>('api/customers/email', input); // .subscribe(       (data) => {
-    //   console.log(data);
-    //   return Observable.of(null);
-    // },
-    // (error: any) => {
-    //   console.log(error);
-    //   return Observable.of(error);
-    // });
+    return this.http.post<CustomerResult>('api/customers/email', input); 
   }
   private handleError(error: any) {
     console.log(error);
