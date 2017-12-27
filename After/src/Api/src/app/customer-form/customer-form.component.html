@@ -33,20 +33,21 @@
           <span *ngIf="customerForm.get('email').errors.pattern">
             Please enter a valid email.
           </span>
+
         </span>
-        <div *ngIf="customerForm.get('email').status === 'PENDING'">
-            Checking...
-          </div>
-          <div *ngIf="customerForm.get('email').status === 'VALID'">
-             Email is available!
-          </div>
-        
-          <div *ngIf="customerForm.get('email').errors && customerForm.get('email').errors.emailTaken">
-             {{customerForm.get('email').errors.emailTaken}}
-          </div>
+        <span *ngIf="customerForm.get('email').status === 'PENDING'">
+          Checking...
+        </span>
+        <span *ngIf="customerForm.get('email').status === 'VALID'">
+          Email is available!
+        </span>
+
+        <span *ngIf="customerForm.get('email').errors && customerForm.get('email').errors.emailTaken">
+          {{customerForm.get('email').errors.emailTaken}}
+        </span>
       </div>
     </div>
-    <br>Dirty: {{ customerForm.dirty }} 
+    <br>Dirty: {{ customerForm.dirty }}
     <br>Touched: {{ customerForm.touched }}
     <br>Valid: {{ customerForm.valid }}
     <br>Value: {{ customerForm.value | json }}
@@ -55,7 +56,8 @@
     <p-footer>
       <div class="ui-grid-row">
         <!-- <button class="ui-grid-col-1" type="button" pButton icon="fa-close" label="Delete"></button> -->
-        <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button><span class="ui-grid-col-11">&nbsp;</span>
+        <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button>
+        <span class="ui-grid-col-11">&nbsp;</span>
       </div>
     </p-footer>
   </form>
