@@ -1,0 +1,88 @@
+export class GenericResult<T> {
+    private readonly _value: T;
+    private readonly _logic: ResultCommonLogic;
+    constructor(isFailure: boolean, value: T, error: string) {
+        if (!isFailure && value === null) {
+            throw new Error('Success must contain a value.');
+        }
+        this._logic = new ResultCommonLogic(isFailure, error);
+        this._value = value;
+    }
+    get Value(): T {
+        if (this._logic.IsFailure) {
+            throw new Error('There is no value for failure.');
+        }
+        return this._value;
+    }
+    static  Ok<T>( value: T): GenericResult<T> {
+        return new GenericResult<T> (false, value, null);
+    }
+    static Fail<T>(error: string): GenericResult<T> {
+        return new GenericResult<T> (true, null, error);
+    }
+}
+
+export class Result {
+
+    private static readonly OkResult: Result = new Result(false, null);
+     private readonly _logic: ResultCommonLogic;
+   
+
+    private constructor(isFailure: boolean, error: string) {
+  
+        this._logic = new ResultCommonLogic(isFailure, error);
+    }
+
+    get IsFailure(): boolean {
+        return this._logic.IsFailure;
+    }
+    get IsSuccess(): boolean {
+        return this._logic.IsSuccess;
+    }
+    get Error(): string {
+        return this.Error;
+    }
+    static Ok(): Result {
+        return Result.OkResult;
+    }
+    static Fail(error: string): Result {
+        return new Result(true, error);
+    }
+
+
+}
+
+
+class ResultCommonLogic {
+
+    private isFailure: boolean;
+    private readonly _error: string;
+
+    constructor(isFailure: boolean, error: string) {
+        if (this.isFailure) {
+            if (error) {
+                throw new Error('There must be error message for failure.');
+            }
+
+        } else {
+            if (error !== null) {
+                throw new Error('There should be no error message for success.');
+            }
+        }
+        this.isFailure = isFailure;
+        this._error = error;
+    }
+    get IsFailure(): boolean {
+        return this.isFailure;
+
+    }
+    get IsSuccess(): boolean {
+        return !this.isFailure;
+    }
+    get Error(): string {
+        if (this.IsSuccess) {
+            throw new Error('There is no error message for success.');
+        }
+        return this._error;
+    }
+}

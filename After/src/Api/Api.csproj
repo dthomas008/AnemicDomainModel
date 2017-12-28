@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\app\logic\common\Entity.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -40,6 +44,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\logic\common\Entity.ts" />
   </ItemGroup>
 
 </Project>
