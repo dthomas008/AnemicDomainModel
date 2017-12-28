@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateCustomerDto } from '../customer-result';
+import { Router } from '@angular/router';
+import { CreateCustomerDto, CustomerResult, Customer } from '../customer-result';
 import { CustomerService } from '../customer.service';
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators, FormControlName } from '@angular/forms';
 import { ValidateUniqueEmail } from '../utils/validateUniqueEmail';
+import { Subscription } from 'rxjs/Subscription';
+import { Envelope } from '../utils/Envelope';
 
 
 
@@ -13,12 +16,15 @@ import { ValidateUniqueEmail } from '../utils/validateUniqueEmail';
 })
 export class CustomerFormComponent implements OnInit {
 
-  newCustomer: CreateCustomerDto;
+  currCustomer: CreateCustomerDto;
   customerForm: FormGroup;
-  message: String;
+  message: string;
+  private sub: Subscription;
 
 
-  constructor(private fb: FormBuilder, private custServ: CustomerService) { }
+  constructor(private router: Router, private fb: FormBuilder, private custServ: CustomerService) {
+
+  }
 
   ngOnInit() {
     this.customerForm = this.fb.group({
@@ -28,7 +34,9 @@ export class CustomerFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')], ValidateUniqueEmail.createValidator(this.custServ)]
     });
 
+
   }
+
   saveCustomer(cust: CreateCustomerDto) {
     if (this.customerForm.dirty && this.customerForm.valid) {
       // Copy the form values over the customer object values
@@ -43,7 +51,7 @@ export class CustomerFormComponent implements OnInit {
         },
         (error: any) => {
           console.log(error);
-          this.message = error.error.errorMessage;
+          this.message = 'Error saving.';
           this.onSaveComplete();
         }
         );
@@ -62,13 +70,7 @@ export class CustomerFormComponent implements OnInit {
     //   });
   }
   onSaveComplete(): void {
-
-
-    // Reset the form to clear the flags
     this.customerForm.reset();
-
-
-    // this.router.navigate(['/products']);
   }
-
 }
+

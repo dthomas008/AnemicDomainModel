@@ -10,14 +10,16 @@ import { AppComponent } from './app.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerService } from './customer.service';
 
-import { DataTableModule, SharedModule, ButtonModule, DialogModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, ButtonModule, DialogModule, PanelModule } from 'primeng/primeng';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
+import { CustomerEditComponent } from './customer-edit/customer-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
-    CustomerFormComponent
+    CustomerFormComponent,
+    CustomerEditComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -27,14 +29,16 @@ import { CustomerFormComponent } from './customer-form/customer-form.component';
     RouterModule.forRoot([
       { path: 'welcome', component: AppComponent },
       { path: 'custList', component: CustomerListComponent },
-      { path: 'custList/:id', component: CustomerFormComponent },
+      { path: 'custAdd', component: CustomerFormComponent },
+      { path: 'custList/:id', component: CustomerEditComponent },
       { path: '', redirectTo: '/', pathMatch: 'full' },
       { path: '**', redirectTo: '/', pathMatch: 'full' }
     ]),
     SharedModule,
     DataTableModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
+    PanelModule
 
   ],
   providers: [CustomerService, HttpClient, FormBuilder],

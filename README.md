@@ -1,4 +1,5 @@
 Added Angular client to explore client side design patterns in line with this course.
+Run ng build --watch in the api directory then launch visual studio.
 
 Welcome to Refactoring from Anemic Domain Model Towards a Rich One
 =====================

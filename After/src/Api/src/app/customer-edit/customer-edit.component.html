@@ -1,0 +1,63 @@
+<p-panel header="Edit Customer">
+  <form novalidate (ngSubmit)="saveCustomer()" [formGroup]="customerForm">
+    <div class="ui-g">
+      <label class="ui-g-6">Id: </label>
+      <div class="ui-g-6">{{currCustomer?.id}}</div>
+    </div>
+    <div class="ui-g">
+      <label class="ui-g-6">Status: </label>
+      <div class="ui-g-6">{{currCustomer?.status}}</div>
+    </div>
+    <div class="ui-g">
+      <label class="ui-g-6">Status Expiration Date: </label>
+      <div class="ui-g-6">{{currCustomer?.statusExpirationDate | date }}</div>
+    </div>
+    <div class="ui-g">
+      <label class="ui-g-6">Money Spent: </label>
+      <div class="ui-g-6">{{currCustomer?.moneySpent | currency }}</div>
+    </div>
+    <div class="ui-g">
+      <label class="ui-g-1" for="name">Name: </label>
+      <input class="ui-g-4" type="text" pInputText id="name" placeholder="Name (required)" formControlName="name" />
+      <span class="ui-g-7" *ngIf="(customerForm.get('name').touched || 
+            customerForm.get('name').dirty) && 
+            customerForm.get('name').errors">
+        <span *ngIf="customerForm.get('name').errors.required">
+          Please enter your name.
+        </span>
+        <span *ngIf="customerForm.get('name').errors.minlength">
+          The first name must be longer than 3 characters.
+        </span>
+      </span>
+    </div>
+    <div class="ui-g">
+      <label class="ui-g-1" for="email">Email: </label>
+      <input class="ui-g-4" pInputText id="email" placeholder="Email (required)" formControlName="email" />
+      <span class="ui-g-7" *ngIf="(customerForm.get('email').touched || 
+        customerForm.get('email').dirty) && 
+        customerForm.get('email').errors">
+        <span *ngIf="customerForm.get('email').errors.required">
+          Please enter your email.
+        </span>
+        <span *ngIf="customerForm.get('email').errors.pattern">
+          Please enter a valid email.
+        </span>
+
+      </span>
+      <span class="ui-g-7" *ngIf="customerForm.get('email').status === 'PENDING'">
+        Checking...
+      </span>
+      <span class="ui-g-7" *ngIf="customerForm.get('email').status === 'VALID'">
+        Email is available!
+      </span>
+
+      <span class="ui-g-7" *ngIf="customerForm.get('email').errors && customerForm.get('email').errors.emailTaken">
+        {{customerForm.get('email').errors.emailTaken}}
+      </span>
+    </div>
+    <div class="ui-g">
+      <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button>
+    </div>
+  </form>
+  {{message | json}}
+</p-panel>

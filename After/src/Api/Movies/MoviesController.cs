@@ -8,15 +8,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.Customers
+namespace Api.Movies
 {
   [Route("api/[controller]")]
-  public class MovieController: BaseController
+  public class MoviesController: BaseController
     {
     private readonly MovieRepository _movieRepository;
 
 
-    public MovieController(UnitOfWork unitOfWork, MovieRepository movieRepository)
+    public MoviesController(UnitOfWork unitOfWork, MovieRepository movieRepository)
         : base(unitOfWork)
     {
       _movieRepository = movieRepository;

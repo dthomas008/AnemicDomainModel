@@ -1,4 +1,4 @@
-﻿namespace Api.Customers
+﻿namespace Api.Movies
 {
     public class UpdateCustomerDto
     {

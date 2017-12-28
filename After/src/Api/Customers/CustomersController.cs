@@ -7,7 +7,7 @@ using Logic.Movies;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Customers
+namespace Api.Movies
 {
     [Route("api/[controller]")]
     public class CustomersController : BaseController

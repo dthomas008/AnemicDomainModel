@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Api.Customers
+namespace Api.Movies
 {
     public class CustomerDto
     {

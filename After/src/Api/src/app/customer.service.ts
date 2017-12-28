@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CustomerResult, Customer, CreateCustomerDto } from './customer-result';
 import { Observable } from 'rxjs/Observable';
+import { Envelope } from './utils/Envelope';
 
 @Injectable()
 export class CustomerService {
@@ -13,8 +14,9 @@ export class CustomerService {
 
   getCustomers(): Observable<CustomerResult> {
     return this.http.get<CustomerResult>('api/customers');
-
-
+  }
+  getCustomer(id: number): Observable<Envelope<Customer>> {
+    return this.http.get<Envelope<Customer>>('api/customers/' + id);
   }
   createCustomer(customer: CreateCustomerDto): Observable<CustomerResult>  {
     return this.http.post<CustomerResult>('api/customers', customer);

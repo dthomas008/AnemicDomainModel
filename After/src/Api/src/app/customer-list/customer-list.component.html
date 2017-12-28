@@ -1,5 +1,9 @@
 <p-dataTable [value]="customers?.result">
-  <p-column field="id" header="Id"></p-column>
+  <p-column field="id" header="Id">
+    <ng-template let-col let-customer="rowData" pTemplate="body">
+      <a [routerLink]="['/custList/',customer[col.field]]">Edit Customer</a>
+    </ng-template>
+  </p-column>
   <p-column field="name" header="Name"></p-column>
   <p-column field="email" header="Email"></p-column>
   <p-column field="status" header="Status"></p-column>
@@ -22,5 +26,5 @@
 </p-dataTable>
 
 <p-dialog header="Customer Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
- 
+
 </p-dialog>
