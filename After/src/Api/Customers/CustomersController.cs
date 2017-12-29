@@ -9,91 +9,91 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Movies
 {
-    [Route("api/[controller]")]
-    public class CustomersController : BaseController
+  [Route("api/[controller]")]
+  public class CustomersController : BaseController
+  {
+    private readonly MovieRepository _movieRepository;
+    private readonly CustomerRepository _customerRepository;
+
+    public CustomersController(UnitOfWork unitOfWork, MovieRepository movieRepository, CustomerRepository customerRepository)
+        : base(unitOfWork)
     {
-        private readonly MovieRepository _movieRepository;
-        private readonly CustomerRepository _customerRepository;
+      _customerRepository = customerRepository;
+      _movieRepository = movieRepository;
+    }
 
-        public CustomersController(UnitOfWork unitOfWork, MovieRepository movieRepository, CustomerRepository customerRepository)
-            : base(unitOfWork)
+    [HttpGet]
+    [Route("{id}")]
+    public IActionResult Get(long id)
+    {
+      Customer customer = _customerRepository.GetById(id);
+      if (customer == null)
+        return NotFound();
+
+      var dto = new CustomerDto
+      {
+        Id = customer.Id,
+        Name = customer.Name.Value,
+        Email = customer.Email.Value,
+        MoneySpent = customer.MoneySpent,
+        Status = customer.Status.Type.ToString(),
+        StatusExpirationDate = customer.Status.ExpirationDate,
+        PurchasedMovies = customer.PurchasedMovies.Select(x => new PurchasedMovieDto
         {
-            _customerRepository = customerRepository;
-            _movieRepository = movieRepository;
-        }
+          Price = x.Price,
+          ExpirationDate = x.ExpirationDate,
+          PurchaseDate = x.PurchaseDate,
+          Movie = new MovieDto
+          {
+            Id = x.Movie.Id,
+            Name = x.Movie.Name
+          }
+        }).ToList()
+      };
 
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult Get(long id)
-        {
-            Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
-                return NotFound();
-            
-            var dto = new CustomerDto
-            {
-                Id = customer.Id,
-                Name = customer.Name.Value,
-                Email = customer.Email.Value,
-                MoneySpent = customer.MoneySpent,
-                Status = customer.Status.Type.ToString(),
-                StatusExpirationDate = customer.Status.ExpirationDate,
-                PurchasedMovies = customer.PurchasedMovies.Select(x => new PurchasedMovieDto
-                {
-                    Price = x.Price,
-                    ExpirationDate = x.ExpirationDate,
-                    PurchaseDate = x.PurchaseDate,
-                    Movie = new MovieDto
-                    {
-                        Id = x.Movie.Id,
-                        Name = x.Movie.Name
-                    }
-                }).ToList()
-            };
+      return Ok(dto);
+    }
 
-            return Ok(dto);
-        }
+    [HttpGet]
+    public IActionResult GetList()
+    {
+      IReadOnlyList<Customer> customers = _customerRepository.GetList();
 
-        [HttpGet]
-        public IActionResult GetList()
-        {
-            IReadOnlyList<Customer> customers = _customerRepository.GetList();
+      List<CustomerInListDto> dtos = customers.Select(x => new CustomerInListDto
+      {
+        Id = x.Id,
+        Name = x.Name.Value,
+        Email = x.Email.Value,
+        MoneySpent = x.MoneySpent,
+        Status = x.Status.Type.ToString(),
+        StatusExpirationDate = x.Status.ExpirationDate
+      }).ToList();
 
-            List<CustomerInListDto> dtos = customers.Select(x => new CustomerInListDto
-            {
-                Id = x.Id,
-                Name = x.Name.Value,
-                Email = x.Email.Value,
-                MoneySpent = x.MoneySpent,
-                Status = x.Status.Type.ToString(),
-                StatusExpirationDate = x.Status.ExpirationDate
-            }).ToList();
-            
-            return Ok(dtos);
-        }
+      return Ok(dtos);
+    }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] CreateCustomerDto item)
-        {
-            Result<CustomerName> customerNameOrError = CustomerName.Create(item.Name);
-            Result<Email> emailOrError = Email.Create(item.Email);
+    [HttpPost]
+    public IActionResult Create([FromBody] CreateCustomerDto item)
+    {
+      Result<CustomerName> customerNameOrError = CustomerName.Create(item.Name);
+      Result<Email> emailOrError = Email.Create(item.Email);
 
-            Result result = Result.Combine(customerNameOrError, emailOrError);
-            if (result.IsFailure)
-                return Error(result.Error);
+      Result result = Result.Combine(customerNameOrError, emailOrError);
+      if (result.IsFailure)
+        return Error(result.Error);
 
-            if (emailInUse(emailOrError))
-                return Error("Email is already in use: " + item.Email);
+      if (emailInUse(emailOrError))
+        return Error("Email is already in use: " + item.Email);
 
-            var customer = new Customer(customerNameOrError.Value, emailOrError.Value);
-            _customerRepository.Add(customer);
+      var customer = new Customer(customerNameOrError.Value, emailOrError.Value);
+      _customerRepository.Add(customer);
 
-            return Ok();
-        }
+      return Ok();
+    }
     [HttpPost]
     [Route("email")]
     public IActionResult EmailInUse([FromBody] CreateCustomerDto item)
-    { 
+    {
       Result<Email> emailOrError = Email.Create(item.Email);
       if (emailOrError.IsFailure)
         return Error(emailOrError.Error);
@@ -101,67 +101,68 @@ namespace Api.Movies
         return Error("Email is already in use: " + item.Email);
       return Ok();
     }
-    private bool emailInUse(Result<Email> email) {
-        if (_customerRepository.GetByEmail(email.Value) != null)
-          return true;
-         else
-         {
-            return false;
-         }
-        }
-
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult Update(long id, [FromBody] UpdateCustomerDto item)
-        {
-            Result<CustomerName> customerNameOrError = CustomerName.Create(item.Name);
-            if (customerNameOrError.IsFailure)
-                return Error(customerNameOrError.Error);
-
-            Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
-                return Error("Invalid customer id: " + id);
-
-            customer.Name = customerNameOrError.Value;
-
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("{id}/movies")]
-        public IActionResult PurchaseMovie(long id, [FromBody] long movieId)
-        {
-            Movie movie = _movieRepository.GetById(movieId);
-            if (movie == null)
-                return Error("Invalid movie id: " + movieId);
-
-            Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
-                return Error("Invalid customer id: " + id);
-
-            if (customer.HasPurchasedMovie(movie))
-                return Error("The movie is already purchased: " + movie.Name);
-
-            customer.PurchaseMovie(movie);
-
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("{id}/promotion")]
-        public IActionResult PromoteCustomer(long id)
-        {
-            Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
-                return Error("Invalid customer id: " + id);
-
-            Result promotionCheck = customer.CanPromote();
-            if (promotionCheck.IsFailure)
-                return Error(promotionCheck.Error);
-
-            customer.Promote();
-
-            return Ok();
-        }
+    private bool emailInUse(Result<Email> email)
+    {
+      if (_customerRepository.GetByEmail(email.Value) != null)
+        return true;
+      else
+      {
+        return false;
+      }
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult Update(long id, [FromBody] UpdateCustomerDto item)
+    {
+      Result<CustomerName> customerNameOrError = CustomerName.Create(item.Name);
+      if (customerNameOrError.IsFailure)
+        return Error(customerNameOrError.Error);
+
+      Customer customer = _customerRepository.GetById(id);
+      if (customer == null)
+        return Error("Invalid customer id: " + id);
+
+      customer.Name = customerNameOrError.Value;
+
+      return Ok();
+    }
+
+    [HttpPost]
+    [Route("{id}/movies")]
+    public IActionResult PurchaseMovie(long id, [FromBody] long movieId)
+    {
+      Movie movie = _movieRepository.GetById(movieId);
+      if (movie == null)
+        return Error("Invalid movie id: " + movieId);
+
+      Customer customer = _customerRepository.GetById(id);
+      if (customer == null)
+        return Error("Invalid customer id: " + id);
+
+      if (customer.HasPurchasedMovie(movie))
+        return Error("The movie is already purchased: " + movie.Name);
+
+      customer.PurchaseMovie(movie);
+
+      return Ok();
+    }
+
+    [HttpPost]
+    [Route("{id}/promotion")]
+    public IActionResult PromoteCustomer(long id)
+    {
+      Customer customer = _customerRepository.GetById(id);
+      if (customer == null)
+        return Error("Invalid customer id: " + id);
+
+      Result promotionCheck = customer.CanPromote();
+      if (promotionCheck.IsFailure)
+        return Error(promotionCheck.Error);
+
+      customer.Promote();
+
+      return Ok();
+    }
+  }
 }

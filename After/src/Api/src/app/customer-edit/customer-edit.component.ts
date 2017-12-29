@@ -42,7 +42,7 @@ export class CustomerEditComponent implements OnInit {
     this.custServ.getCustomer(id)
       .subscribe(
       (customer: Envelope<Customer>) => this.onCustomerRetrieved(customer),
-      (error: any) => this.message = <any>error
+      (error: Envelope<Customer>) => this.message = error.errorMessage
       );
   }
   onCustomerRetrieved(customer: Envelope<Customer>) {

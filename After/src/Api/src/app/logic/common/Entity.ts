@@ -1,4 +1,4 @@
-module Logic.Common {
+
   export class Entity {
     public Id: number;
     // public Equals(obj: Object): boolean {
@@ -34,4 +34,4 @@ module Logic.Common {
     //   return NHibernateProxyHelper.GetClassWithoutInitializingProxy(this);
     // }
   }
-}
+

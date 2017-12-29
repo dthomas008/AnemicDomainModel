@@ -29,6 +29,9 @@ export class Dollars {
         return GenericResult.Ok<Dollars>(new Dollars(dollarAmount));
 
     }
+    static Of (dollarAmount: number): Dollars {
+      return Dollars.Create(dollarAmount).Value;
+    }
 
 
 

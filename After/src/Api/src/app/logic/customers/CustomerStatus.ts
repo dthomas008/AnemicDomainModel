@@ -1,5 +1,5 @@
 import { ExpirationDate } from './ExpirationDate';
-import { read } from 'fs';
+
 
 export enum CustomerStatusType {
     Regular = 1,
