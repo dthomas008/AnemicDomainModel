@@ -1,4 +1,4 @@
-export class ResultCommonLogic {
+class ResultCommonLogic {
 
     private _isFailure: boolean;
     private readonly _error: string;
@@ -85,7 +85,7 @@ export class Result {
         return this._logic.IsSuccess;
     }
     get Error(): string {
-        return this.Error;
+        return this._logic.Error;
     }
     static Ok(): Result {
         return Result.OkResult;

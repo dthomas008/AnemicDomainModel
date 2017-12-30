@@ -19,5 +19,10 @@ export class ExpirationDate {
         today.setFullYear(today.getFullYear() + 1);
         return GenericResult.Ok<ExpirationDate>(new ExpirationDate(today));
     }
+    static CreateDaysFromToday(days: number) {
+        const today = new Date();
+        today.setHours(today.getHours() + days * 24);
+        return GenericResult.Ok<ExpirationDate>(new ExpirationDate(today));
+    }
 
 }
