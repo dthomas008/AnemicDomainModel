@@ -5,6 +5,7 @@ import { CustomerStatus } from './CustomerStatus';
 import { PurchasedMovie } from '../Movies/PurchasedMovie';
 import { Movie } from '../Movies/Movie';
 import { ExpirationDate } from './ExpirationDate';
+import { Result } from '../common/Result';
 
 export class Customer {
 
@@ -61,7 +62,31 @@ export class Customer {
         this._moneySpent = Dollars.Of(price.Value + this.MoneySpent.Value);
 
     }
-
+    CanPromote(): Result {
+        if (this.Status.IsAdvanced) {
+            return Result.Fail('The customer already has the Advanced status');
+        }
+        if (this._purchasedMovies.filter(this.moviePurchasedForStatus).length < 2) {
+            return Result.Fail('The customer has to have at least 2 active movies during the last 30 days');
+        }
+        // if (PurchasedMovies.Where(x => x.PurchaseDate > Date.UtcNow.AddYears(-1)).Sum(x => x.Price) < 100m) {
+        //     return Result.Fail('The customer has to have at least 100 dollars spent during the last year');
+        // }
+        return Result.Ok();
+    }
+    private moviePurchasedForStatus(movie): boolean {
+        const today: Date = new Date();
+        const dayOfMonth = today.getDate();
+        today.setDate(dayOfMonth - 30); // minus 30 days
+        return movie.ExpirationDate === ExpirationDate.Infinite ||
+        movie.ExpirationDate.Date >= today;
+    }
+    Promote(): void {
+        if (this.CanPromote().IsFailure) {
+            throw new Error();
+        }
+        this._status = this.Status.Promote();
+    }
 
 
 

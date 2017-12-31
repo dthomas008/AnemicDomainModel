@@ -4,6 +4,7 @@ import { Customer } from './Customer';
 import { CustomerName } from './CustomerName';
 import { Email } from './Email';
 import { Movie, TwoDaysMovie, LifeLongMovie } from '../Movies/Movie';
+import { CustomerStatus } from './CustomerStatus';
 
 describe('Customer Test ', () => {
     const cust: Customer = new Customer(CustomerName.Create('Fred').Value, Email.Create('fred@fred.com').Value);
@@ -19,12 +20,12 @@ describe('Customer Test ', () => {
     // });
     it('should purchase a movie ', () => {
         cust.PurchaseMovie(movie);
+        expect(cust.MoneySpent.Value).toBeGreaterThan(0);
     });
     it('has not purchased this movie ', () => {
-        cust.HasPurchasedMovie(movie2);
+        expect(cust.HasPurchasedMovie(movie2)).toBeFalsy();
     });
     it('should have purchased movie ', () => {
-        cust.HasPurchasedMovie(movie);
         expect(cust.HasPurchasedMovie(movie)).toBe(true);
     });
     it('should not purchase an already purchased movie ', () => {
@@ -32,5 +33,14 @@ describe('Customer Test ', () => {
             cust.PurchaseMovie(movie);
         }).toThrow(); // for toThrow to work properly you need to wrap in a function
     });
-
+    it('should promote a customer to advanced status with enough purchases ', () => {
+        cust.PurchaseMovie(movie2);
+        cust.Promote();
+        expect(cust.Status.IsAdvanced).toBe(true); // for toThrow to work properly you need to wrap in a function
+    });
+    it('should not promote an already promoted customer ', () => {
+        expect(function () {
+            cust.Promote();
+        }).toThrow(); // for toThrow to work properly you need to wrap in a function
+    });
 });

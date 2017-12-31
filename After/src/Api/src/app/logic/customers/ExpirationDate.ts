@@ -5,8 +5,10 @@ export class ExpirationDate {
     static readonly Infinite: ExpirationDate = new ExpirationDate(null);
     private _date: Date;
     get IsExpired(): boolean {
-
         return this !== ExpirationDate.Infinite && this._date < new Date();
+    }
+    get Date(): Date {
+        return this._date;
     }
     private constructor(date: Date) {
         this._date = date;
