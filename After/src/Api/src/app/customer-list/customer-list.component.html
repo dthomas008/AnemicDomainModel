@@ -1,4 +1,4 @@
-<p-dataTable [value]="customers?.result">
+<p-dataTable [value]="customers?.result" [resizableColumns]="true">
   <p-column field="id" header="Id">
     <ng-template let-col let-customer="rowData" pTemplate="body">
       <a [routerLink]="['/custList/',customer[col.field]]">Edit Customer</a>
