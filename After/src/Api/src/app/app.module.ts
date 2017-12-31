@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerService } from './customer.service';
 
-import { DataTableModule, SharedModule, ButtonModule, DialogModule, PanelModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, ButtonModule, DialogModule, PanelModule, MenuModule } from 'primeng/primeng';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CustomerEditComponent } from './customer-edit/customer-edit.component';
 
@@ -38,7 +38,8 @@ import { CustomerEditComponent } from './customer-edit/customer-edit.component';
     DataTableModule,
     ButtonModule,
     DialogModule,
-    PanelModule
+    PanelModule,
+    MenuModule
 
   ],
   providers: [CustomerService, HttpClient, FormBuilder],

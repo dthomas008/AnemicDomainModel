@@ -1,21 +1,29 @@
-<div>
-    <nav class='navbar navbar-default'>
-        <div class='container-fluid'>
-            <a class='navbar-brand'>{{pageTitle}}</a>
-            <ul class='nav navbar-nav'>
-                <li>
-                    <a [routerLink]="['/']">Home</a>
-                </li>
-                <li>
-                    <a [routerLink]="['/custList']">Customer List</a>
-                </li>
-                <li>
-                    <a [routerLink]="['/custAdd']">Add Customer</a>
-                </li>
-            </ul>
+<div class="ui-g ui-g-nopad" id="header">
+
+    <div class="ui-g-10">
+        <h1>Movies</h1>
+    </div>
+    <div class="ui-g-2" id="notifications">
+
+    </div>
+</div>
+
+<div class="ui-g ui-g-nopad">
+
+    <div class="ui-g-2 ui-g-nopad" id="sidegutter">
+
+        <div id="sidenav">
+
+            <p-menu #bigMenu [model]="menuItems"></p-menu>
+
         </div>
-    </nav>
-    <div class='container'>
+
+    </div>
+
+
+    <div id="content-body" class="ui-g-10 ui-g-nopad">
+
         <router-outlet></router-outlet>
+
     </div>
 </div>
