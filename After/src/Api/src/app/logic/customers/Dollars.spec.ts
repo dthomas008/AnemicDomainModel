@@ -16,6 +16,10 @@ describe('Dollars Test ', () => {
         const dollar: GenericResult<Dollars> = Dollars.Create(-1.0);
         expect(dollar.IsFailure).toBe(true);
     });
+    it('should fail to create dollars over max amout ', () => {
+        const dollar: GenericResult<Dollars> = Dollars.Create(Dollars.MaxDollarAmount + 0.01);
+        expect(dollar.IsFailure).toBe(true);
+    });
     it('should create two dollars ', () => {
         const dollar: Dollars = Dollars.Of(2.0);
         expect(dollar.Value).toBe(2.0);

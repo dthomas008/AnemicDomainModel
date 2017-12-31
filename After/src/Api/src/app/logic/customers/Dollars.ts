@@ -2,7 +2,7 @@ import { GenericResult } from '../common/Result';
 
 export class Dollars {
 
-    private static readonly MaxDollarAmount: number = 1000000;
+    static readonly MaxDollarAmount: number = 1000000;
     private readonly _value: number;
     get Value(): number {
         return this._value;
