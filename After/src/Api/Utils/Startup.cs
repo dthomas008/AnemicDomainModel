@@ -4,6 +4,7 @@ using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Api.Utils
 {
@@ -20,7 +21,10 @@ namespace Api.Utils
         {
             
             services.AddMvc();
-
+            services.AddSwaggerGen(c =>
+            {
+              c.SwaggerDoc("v1", new Info { Title = "Sports API", Version = "v1" });
+            });
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
             services.AddScoped<UnitOfWork>();
             services.AddTransient<MovieRepository>();
@@ -33,6 +37,11 @@ namespace Api.Utils
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
-        }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+              c.SwaggerEndpoint("/swagger/v1/swagger.json", "Online Theater API v1");
+            });
+    }
     }
 }
