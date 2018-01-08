@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace Logic.Customers
 {
@@ -9,7 +10,7 @@ namespace Logic.Customers
         public decimal Value { get; }
 
         public bool IsZero => Value == 0;
-
+        [JsonConstructor]
         private Dollars(decimal value)
         {
             Value = value;

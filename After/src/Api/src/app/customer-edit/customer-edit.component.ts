@@ -31,14 +31,14 @@ export class CustomerEditComponent implements OnInit {
     // Read the cust Id from the route parameter
     this.sub = this.route.params.subscribe(
       params => {
-        const id = +params['id'];
+        const id = params['id'];
         this.getCustomer(id);
       }
     );
 
   }
 
-  getCustomer(id: number): void {
+  getCustomer(id: string): void {
     this.custServ.getCustomer(id)
       .subscribe(
       (customer: Envelope<Customer>) => this.onCustomerRetrieved(customer),

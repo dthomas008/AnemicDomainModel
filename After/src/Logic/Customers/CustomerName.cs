@@ -1,12 +1,13 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace Logic.Customers
 {
     public class CustomerName : ValueObject<CustomerName>
     {
         public string Value { get; }
-
+        [JsonConstructor]
         private CustomerName(string value)
         {
             Value = value;

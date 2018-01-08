@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Api.Utils;
 using CSharpFunctionalExtensions;
 using Logic.Customers;
@@ -13,20 +14,21 @@ namespace Api.Movies
   public class CustomersController : BaseController
   {
     private readonly MovieRepository _movieRepository;
-    private readonly CustomerRepository _customerRepository;
+    //private readonly CustomerRepository _customerRepository;
 
-    public CustomersController(UnitOfWork unitOfWork, MovieRepository movieRepository, CustomerRepository customerRepository)
-        : base(unitOfWork)
+    public CustomersController() // UnitOfWork unitOfWork, MovieRepository movieRepository CustomerRepository customerRepository
+        : base()
     {
-      _customerRepository = customerRepository;
-      _movieRepository = movieRepository;
+      //_customerRepository = customerRepository;
+      //_movieRepository = movieRepository;
     }
 
     [HttpGet]
     [Route("{id}")]
-    public IActionResult Get(long id)
+    public async Task<IActionResult> Get(string id)
     {
-      Customer customer = _customerRepository.GetById(id);
+      //Customer customer = _customerRepository.GetById(id);
+      Customer customer = await DocumentDBRepository<Customer>.GetItemAsync(id);
       if (customer == null)
         return NotFound();
 
@@ -55,9 +57,10 @@ namespace Api.Movies
     }
 
     [HttpGet]
-    public IActionResult GetList()
+    public async Task<IActionResult> GetList()
     {
-      IReadOnlyList<Customer> customers = _customerRepository.GetList();
+      // IReadOnlyList<Customer> customers = _customerRepository.GetList();
+      IEnumerable<Customer> customers = await DocumentDBRepository<Customer>.GetCustomersAsync();
 
       List<CustomerInListDto> dtos = customers.Select(x => new CustomerInListDto
       {
@@ -73,7 +76,7 @@ namespace Api.Movies
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] CreateCustomerDto item)
+    public async Task<IActionResult> CreateAsync([FromBody] CreateCustomerDto item)
     {
       Result<CustomerName> customerNameOrError = CustomerName.Create(item.Name);
       Result<Email> emailOrError = Email.Create(item.Email);
@@ -86,7 +89,8 @@ namespace Api.Movies
         return Error("Email is already in use: " + item.Email);
 
       var customer = new Customer(customerNameOrError.Value, emailOrError.Value);
-      _customerRepository.Add(customer);
+      //_customerRepository.Add(customer);
+      await DocumentDBRepository<Customer>.CreateItemAsync(customer);
 
       return Ok();
     }
@@ -103,9 +107,9 @@ namespace Api.Movies
     }
     private bool emailInUse(Result<Email> email)
     {
-      if (_customerRepository.GetByEmail(email.Value) != null)
-        return true;
-      else
+      //if (_customerRepository.GetByEmail(email.Value) != null)
+      //  return true;
+      //else
       {
         return false;
       }
@@ -119,11 +123,11 @@ namespace Api.Movies
       if (customerNameOrError.IsFailure)
         return Error(customerNameOrError.Error);
 
-      Customer customer = _customerRepository.GetById(id);
-      if (customer == null)
-        return Error("Invalid customer id: " + id);
+      Customer customer;// = _customerRepository.GetById(id);
+      //if (customer == null)
+      //  return Error("Invalid customer id: " + id);
 
-      customer.Name = customerNameOrError.Value;
+      //customer.Name = customerNameOrError.Value;
 
       return Ok();
     }
@@ -136,14 +140,14 @@ namespace Api.Movies
       if (movie == null)
         return Error("Invalid movie id: " + movieId);
 
-      Customer customer = _customerRepository.GetById(id);
-      if (customer == null)
-        return Error("Invalid customer id: " + id);
+      Customer customer;//= _customerRepository.GetById(id);
+      //if (customer == null)
+      //  return Error("Invalid customer id: " + id);
 
-      if (customer.HasPurchasedMovie(movie))
-        return Error("The movie is already purchased: " + movie.Name);
+      //if (customer.HasPurchasedMovie(movie))
+      //  return Error("The movie is already purchased: " + movie.Name);
 
-      customer.PurchaseMovie(movie);
+     // customer.PurchaseMovie(movie);
 
       return Ok();
     }
@@ -152,9 +156,9 @@ namespace Api.Movies
     [Route("{id}/promotion")]
     public IActionResult PromoteCustomer(long id)
     {
-      Customer customer = _customerRepository.GetById(id);
-      if (customer == null)
-        return Error("Invalid customer id: " + id);
+      Customer customer = null;// = _customerRepository.GetById(id);
+      //if (customer == null)
+      //  return Error("Invalid customer id: " + id);
 
       Result promotionCheck = customer.CanPromote();
       if (promotionCheck.IsFailure)

@@ -17,7 +17,7 @@ namespace Api.Movies
 
 
     public MoviesController(UnitOfWork unitOfWork, MovieRepository movieRepository)
-        : base(unitOfWork)
+        : base()
     {
       _movieRepository = movieRepository;
     }

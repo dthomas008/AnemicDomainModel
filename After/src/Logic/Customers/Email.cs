@@ -1,13 +1,14 @@
 using System;
 using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace Logic.Customers
 {
     public class Email : ValueObject<Email>
     {
         public string Value { get; }
-
+        [JsonConstructor]
         private Email(string value)
         {
             Value = value;

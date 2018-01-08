@@ -16,7 +16,7 @@ namespace Logic.Utils
 
         public SessionFactory(string connectionString)
         {
-            _factory = BuildSessionFactory(connectionString);
+            //_factory = BuildSessionFactory(connectionString);
         }
 
         internal ISession OpenSession()
@@ -75,7 +75,7 @@ namespace Logic.Utils
             public void Apply(IIdentityInstance instance)
             {
                 instance.Column(instance.EntityType.Name + "ID");
-                instance.GeneratedBy.Native();
+               // instance.GeneratedBy.Native();
             }
         }
     }

@@ -5,8 +5,10 @@ namespace Logic.Common
 {
     public abstract class Entity
     {
-        public virtual long Id { get; protected set; }
+        //public virtual string Id { get; protected set; }
 
+        [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
+        public virtual string Id { get; protected set; }
         public override bool Equals(object obj)
         {
             var other = obj as Entity;
@@ -17,11 +19,11 @@ namespace Logic.Common
             if (ReferenceEquals(this, other))
                 return true;
 
-            if (GetRealType() != other.GetRealType())
+            if (GetType() != other.GetType())
                 return false;
 
-            if (Id == 0 || other.Id == 0)
-                return false;
+            //if (Id == 0 || other.Id == 0)
+            //    return false;
 
             return Id == other.Id;
         }
@@ -44,12 +46,12 @@ namespace Logic.Common
 
         public override int GetHashCode()
         {
-            return (GetRealType().ToString() + Id).GetHashCode();
+            return (GetType().ToString() + Id).GetHashCode();
         }
 
-        private Type GetRealType()
-        {
-            return NHibernateProxyHelper.GetClassWithoutInitializingProxy(this);
-        }
+        //private Type GetRealType()
+        //{
+        //    return NHibernateProxyHelper.GetClassWithoutInitializingProxy(this);
+        //}
     }
 }

@@ -15,7 +15,7 @@ export class CustomerService {
   getCustomers(): Observable<CustomerResult> {
     return this.http.get<CustomerResult>('api/customers');
   }
-  getCustomer(id: number): Observable<Envelope<Customer>> {
+  getCustomer(id: string): Observable<Envelope<Customer>> {
     return this.http.get<Envelope<Customer>>('api/customers/' + id);
   }
   createCustomer(customer: CreateCustomerDto): Observable<CustomerResult>  {

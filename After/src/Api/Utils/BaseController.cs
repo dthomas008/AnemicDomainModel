@@ -1,4 +1,4 @@
-﻿using Logic.Utils;
+using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Utils
@@ -7,20 +7,20 @@ namespace Api.Utils
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public BaseController(UnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+        //public BaseController(UnitOfWork unitOfWork)
+        //{
+        //    _unitOfWork = unitOfWork;
+        //}
 
         protected new IActionResult Ok()
         {
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return base.Ok(Envelope.Ok());
         }
 
         protected IActionResult Ok<T>(T result)
         {
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return base.Ok(Envelope.Ok(result));
         }
 

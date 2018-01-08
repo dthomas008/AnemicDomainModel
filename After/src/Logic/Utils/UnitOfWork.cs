@@ -15,8 +15,8 @@ namespace Logic.Utils
 
         public UnitOfWork(SessionFactory sessionFactory)
         {
-            _session = sessionFactory.OpenSession();
-            _transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted);
+            //_session = sessionFactory.OpenSession();
+           // _transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         public void Dispose()

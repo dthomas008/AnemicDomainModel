@@ -25,10 +25,10 @@ namespace Api.Utils
             {
               c.SwaggerDoc("v1", new Info { Title = "Sports API", Version = "v1" });
             });
-            services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
-            services.AddScoped<UnitOfWork>();
-            services.AddTransient<MovieRepository>();
-            services.AddTransient<CustomerRepository>();
+            //services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
+            //services.AddScoped<UnitOfWork>();
+            //services.AddTransient<MovieRepository>();
+            //services.AddTransient<CustomerRepository>();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -42,6 +42,7 @@ namespace Api.Utils
             {
               c.SwaggerEndpoint("/swagger/v1/swagger.json", "Online Theater API v1");
             });
+      DocumentDBRepository<Customer>.Initialize();
     }
     }
 }

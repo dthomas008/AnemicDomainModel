@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
 namespace Api.Movies
 {
     public class CustomerInListDto
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Status { get; set; }
