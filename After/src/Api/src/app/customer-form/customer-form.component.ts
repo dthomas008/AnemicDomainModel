@@ -58,16 +58,7 @@ export class CustomerFormComponent implements OnInit {
     } else if (!this.customerForm.dirty) {
       this.onSaveComplete();
     }
-    // console.log(cust.name);
-    // console.log(cust.email);
-    // this.custServ.createCustomer(cust).subscribe(
-    //   data => {
-    //     
-    //     this.onSaveComplete();
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   });
+
   }
   onSaveComplete(): void {
     this.customerForm.reset();

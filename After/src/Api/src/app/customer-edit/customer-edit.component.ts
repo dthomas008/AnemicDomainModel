@@ -25,14 +25,16 @@ export class CustomerEditComponent implements OnInit {
     this.customerForm = this.fb.group({
       name: ['', [Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(50)]],
-      email: ['', [Validators.required, Validators.pattern('[^ @]*@[^ @]*')], ValidateUniqueEmail.createValidator(this.custServ)]
+      Validators.maxLength(50)]]
+
     });
     // Read the cust Id from the route parameter
     this.sub = this.route.params.subscribe(
       params => {
         const id = params['id'];
+        if (id) { 
         this.getCustomer(id);
+        }
       }
     );
 
@@ -44,6 +46,33 @@ export class CustomerEditComponent implements OnInit {
       (customer: Envelope<Customer>) => this.onCustomerRetrieved(customer),
       (error: Envelope<Customer>) => this.message = error.errorMessage
       );
+  }
+
+  updateCustomer(id: string): void {
+
+    if (this.customerForm.dirty && this.customerForm.valid) {
+      // Copy the form values over the customer object values
+      const c = Object.assign({}, this.currCustomer, this.customerForm.value);
+
+      this.custServ.updateCustomer(c.id, c)
+        .subscribe(
+        (data) => {
+          console.log(data);
+          this.message = 'Save complete.';
+          this.onSaveComplete();
+        },
+        (error: any) => {
+          console.log(error);
+          this.message = 'Error saving.';
+          this.onSaveComplete();
+        }
+        );
+    } else if (!this.customerForm.dirty) {
+      this.onSaveComplete();
+    }
+
+
+
   }
   onCustomerRetrieved(customer: Envelope<Customer>) {
     if (this.customerForm) {
@@ -57,5 +86,8 @@ export class CustomerEditComponent implements OnInit {
       email: this.currCustomer.email
     });
 
+  }
+  onSaveComplete(): void {
+    // this.customerForm.reset();
   }
 }

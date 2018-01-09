@@ -118,17 +118,18 @@ namespace Api.Movies
 
     [HttpPut]
     [Route("{id}")]
-    public IActionResult Update(long id, [FromBody] UpdateCustomerDto item)
+    public async Task<IActionResult> Update(string id, [FromBody] UpdateCustomerDto item)
     {
       Result<CustomerName> customerNameOrError = CustomerName.Create(item.Name);
       if (customerNameOrError.IsFailure)
         return Error(customerNameOrError.Error);
 
-      Customer customer;// = _customerRepository.GetById(id);
-      //if (customer == null)
-      //  return Error("Invalid customer id: " + id);
+      Customer customer= await DocumentDBRepository<Customer>.GetItemAsync(id);
+      if (customer == null)
+        return Error("Invalid customer id: " + id);
 
-      //customer.Name = customerNameOrError.Value;
+      customer.Name = customerNameOrError.Value;
+      await DocumentDBRepository<Customer>.UpdateItemAsync(id, customer);
 
       return Ok();
     }

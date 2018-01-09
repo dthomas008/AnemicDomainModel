@@ -22,6 +22,10 @@ export class CustomerService {
     return this.http.post<CustomerResult>('api/customers', customer);
 
   }
+  updateCustomer(id: string, customer: CreateCustomerDto): Observable<CustomerResult>  {
+    return this.http.put<CustomerResult>('api/customers/' + id, customer);
+
+  }
   uniqueEmail(email: string): Observable<CustomerResult>  {
     const input = new CreateCustomerDto();
     input.email = email;

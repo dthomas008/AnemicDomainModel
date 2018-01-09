@@ -1,5 +1,5 @@
 <p-panel header="Edit Customer">
-  <form novalidate (ngSubmit)="saveCustomer()" [formGroup]="customerForm">
+  <form novalidate (ngSubmit)="updateCustomer()" [formGroup]="customerForm">
     <div class="ui-g">
       <label class="ui-g-6">Id: </label>
       <div class="ui-g-6">{{currCustomer?.id}}</div>
@@ -32,28 +32,7 @@
     </div>
     <div class="ui-g">
       <label class="ui-g-1" for="email">Email: </label>
-      <input class="ui-g-4" pInputText id="email" placeholder="Email (required)" formControlName="email" />
-      <span class="ui-g-7" *ngIf="(customerForm.get('email').touched || 
-        customerForm.get('email').dirty) && 
-        customerForm.get('email').errors">
-        <span *ngIf="customerForm.get('email').errors.required">
-          Please enter your email.
-        </span>
-        <span *ngIf="customerForm.get('email').errors.pattern">
-          Please enter a valid email.
-        </span>
-
-      </span>
-      <span class="ui-g-7" *ngIf="customerForm.get('email').status === 'PENDING'">
-        Checking...
-      </span>
-      <span class="ui-g-7" *ngIf="customerForm.get('email').status === 'VALID'">
-        Email is available!
-      </span>
-
-      <span class="ui-g-7" *ngIf="customerForm.get('email').errors && customerForm.get('email').errors.emailTaken">
-        {{customerForm.get('email').errors.emailTaken}}
-      </span>
+      <div class="ui-g-1">{{currCustomer?.email}}</div>
     </div>
     <div class="ui-g">
       <button class="ui-grid-col-1" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button>
