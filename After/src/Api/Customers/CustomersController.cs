@@ -85,7 +85,7 @@ namespace Api.Movies
       if (result.IsFailure)
         return Error(result.Error);
 
-      if (emailInUse(emailOrError))
+      if (await emailInUse(emailOrError))
         return Error("Email is already in use: " + item.Email);
 
       var customer = new Customer(customerNameOrError.Value, emailOrError.Value);
@@ -96,20 +96,21 @@ namespace Api.Movies
     }
     [HttpPost]
     [Route("email")]
-    public IActionResult EmailInUse([FromBody] CreateCustomerDto item)
+    public async Task<IActionResult> EmailInUse([FromBody] CreateCustomerDto item)
     {
       Result<Email> emailOrError = Email.Create(item.Email);
       if (emailOrError.IsFailure)
         return Error(emailOrError.Error);
-      if (emailInUse(emailOrError))
+      if (await emailInUse(emailOrError))
         return Error("Email is already in use: " + item.Email);
       return Ok();
     }
-    private bool emailInUse(Result<Email> email)
+    private async Task<bool> emailInUse(Result<Email> email)
     {
-      //if (_customerRepository.GetByEmail(email.Value) != null)
-      //  return true;
-      //else
+      var custs = await DocumentDBRepository<Customer>.GetItemsAsync(cust => cust.Email == email.Value);
+      if (custs.Count() > 0)
+        return true;
+      else
       {
         return false;
       }

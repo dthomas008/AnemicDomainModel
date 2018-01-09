@@ -4,9 +4,6 @@ class ResultCommonLogic {
     private readonly _error: string;
 
     constructor(isFailure: boolean, error: string) {
-        console.log(isFailure);
-        console.log(error);
-        console.log((error !== null));
         if (isFailure) {
             if (error === null ) {
                 throw new Error('There must be error message for failure.');
