@@ -28,13 +28,19 @@ namespace Logic.Customers
             get => Dollars.Of(_moneySpent);
             protected set => _moneySpent = value;
         }
-
-        private readonly IList<PurchasedMovie> _purchasedMovies;
-        public virtual IReadOnlyList<PurchasedMovie> PurchasedMovies => _purchasedMovies.ToList();
+        [JsonProperty(PropertyName = "PurchasedMovies")]
+        private  List<PurchasedMovie> _purchasedMovies;
+        [JsonIgnore]
+        public virtual IReadOnlyList<PurchasedMovie> PurchasedMovies
+        
+        { get { return _purchasedMovies.ToList(); }
+          //private set { this._purchasedMovies = (List<PurchasedMovie>)value; }
+        }
+  
         //[JsonConstructor] this does not work here
         protected Customer()
         {
-            _purchasedMovies = new List<PurchasedMovie>();
+            
         }
 
         public Customer(CustomerName name, Email email) : this()
@@ -44,6 +50,7 @@ namespace Logic.Customers
 
             MoneySpent = Dollars.Of(0);
             Status = CustomerStatus.Regular;
+            _purchasedMovies = new List<PurchasedMovie>();
         }
         /* 
         This attribute must be carefully choosen down the whole object
@@ -52,12 +59,14 @@ namespace Logic.Customers
         Also this constructor only exists for JSON deserialization
         */
         [JsonConstructor]   
-        private Customer(CustomerName name, Email email, Dollars moneySpent, CustomerStatus status) : this()
+        private Customer(CustomerName name, Email email, Dollars moneySpent, 
+            CustomerStatus status, List<PurchasedMovie> movies) 
         {
             _name = name ?? throw new ArgumentNullException(nameof(name));
             _email = email ?? throw new ArgumentNullException(nameof(email));
             MoneySpent = moneySpent;
             Status = status;
+            
 
         }
 

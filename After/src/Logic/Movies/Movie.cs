@@ -1,13 +1,21 @@
 ﻿using System;
 using Logic.Common;
 using Logic.Customers;
+using Newtonsoft.Json;
 
 namespace Logic.Movies
 {
     public abstract class Movie : Entity
     {
+        //protected Movie() // set from DB
+        //{
+        //    if (this.Id == null)
+        //    {
+        //        this.Id = Guid.NewGuid().ToString();
+        //    }
+        //}
         public virtual string Name { get; protected set; }
-        protected virtual LicensingModel LicensingModel { get; set; }
+        public virtual LicensingModel LicensingModel { get; protected set; }
 
         public abstract ExpirationDate GetExpirationDate();
 
@@ -19,9 +27,15 @@ namespace Logic.Movies
 
         protected abstract Dollars GetBasePrice();
     }
-
+    
     public class TwoDaysMovie : Movie
     {
+        [JsonConstructor]
+        public TwoDaysMovie(String name)
+        {
+            this.Name = name ?? throw new ArgumentException(nameof(name));
+            this.LicensingModel = LicensingModel.TwoDays;
+        }
         public override ExpirationDate GetExpirationDate()
         {
             return (ExpirationDate)DateTime.UtcNow.AddDays(2);
@@ -32,9 +46,15 @@ namespace Logic.Movies
             return Dollars.Of(4);
         }
     }
-
+ 
     public class LifeLongMovie : Movie
     {
+        [JsonConstructor]
+        public LifeLongMovie(String name)
+        {
+            this.Name = name ?? throw new ArgumentException(nameof(name));
+            this.LicensingModel = LicensingModel.LifeLong;
+        }
         public override ExpirationDate GetExpirationDate()
         {
             return ExpirationDate.Infinite;

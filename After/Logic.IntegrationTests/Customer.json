@@ -1,0 +1,94 @@
+﻿{
+  "$id": "1",
+  "$type": "Logic.Customers.Customer, Logic",
+  "PurchasedMovies": {
+    "$id": "2",
+    "$type": "System.Collections.Generic.List`1[[Logic.Customers.PurchasedMovie, Logic]], System.Private.CoreLib",
+    "$values": [
+      {
+        "$id": "3",
+        "$type": "Logic.Customers.PurchasedMovie, Logic",
+        "Customer": {
+          "$ref": "1"
+        },
+        "Movie": {
+          "$id": "4",
+          "$type": "Logic.Movies.LifeLongMovie, Logic",
+          "Name": "Reservoir Dogs",
+          "LicensingModel": 2,
+          "id": "56169694-c239-47a3-9475-dc99a7217179"
+        },
+        "Price": {
+          "$id": "5",
+          "$type": "Logic.Customers.Dollars, Logic",
+          "Value": 8,
+          "IsZero": false
+        },
+        "PurchaseDate": "2018-01-10T22:11:27.3391214Z",
+        "ExpirationDate": {
+          "$id": "6",
+          "$type": "Logic.Customers.ExpirationDate, Logic",
+          "IsExpired": false
+        }
+      },
+      {
+        "$id": "7",
+        "$type": "Logic.Customers.PurchasedMovie, Logic",
+        "Customer": {
+          "$ref": "1"
+        },
+        "Movie": {
+          "$id": "8",
+          "$type": "Logic.Movies.TwoDaysMovie, Logic",
+          "Name": "Pulp Fiction",
+          "LicensingModel": 1,
+          "id": "56169694-c239-47a3-9475-dc99a7297179"
+        },
+        "Price": {
+          "$id": "9",
+          "$type": "Logic.Customers.Dollars, Logic",
+          "Value": 4,
+          "IsZero": false
+        },
+        "PurchaseDate": "2018-01-10T22:11:27.3405182Z",
+        "ExpirationDate": {
+          "$id": "10",
+          "$type": "Logic.Customers.ExpirationDate, Logic",
+          "Date": "2018-01-12T22:11:27.3400869Z",
+          "IsExpired": false
+        }
+      }
+    ]
+  },
+  "Name": {
+    "$id": "11",
+    "$type": "Logic.Customers.CustomerName, Logic",
+    "Value": "Fred"
+  },
+  "Email": {
+    "$id": "12",
+    "$type": "Logic.Customers.Email, Logic",
+    "Value": "fred@fred.com"
+  },
+  "Status": {
+    "$id": "13",
+    "$type": "Logic.Customers.CustomerStatus, Logic",
+    "Type": 1,
+    "ExpirationDate": {
+      "$ref": "6"
+    },
+    "IsAdvanced": false
+  },
+  "MoneySpent": {
+    "$id": "14",
+    "$type": "Logic.Customers.Dollars, Logic",
+    "Value": 12,
+    "IsZero": false
+  },
+  "id": "10d1d16c-1837-4ab2-baa0-776d4430ab77",
+  "_rid": "uKV9AO3nJAEIAAAAAAAAAA==",
+  "_self": "dbs/uKV9AA==/colls/uKV9AO3nJAE=/docs/uKV9AO3nJAEIAAAAAAAAAA==/",
+  "_etag": "\"00004000-0000-0000-0000-5a568f8f0000\"",
+  "_attachments": "attachments/",
+  "_ts": 1515622287
+}

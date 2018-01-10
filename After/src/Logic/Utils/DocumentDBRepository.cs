@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
+using Newtonsoft.Json;
 
 namespace Logic.Utils
 {
@@ -18,7 +19,19 @@ namespace Logic.Utils
         private static readonly string DatabaseId = "OnlineTheater";
         private static readonly string CollectionId = "Customers";
         private static DocumentClient client;
+        public static void Initialize()
+        {
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All,
+                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
 
+            };
+            client = new DocumentClient(new Uri(Endpoint), Key, jsonSettings);
+            CreateDatabaseIfNotExistsAsync().Wait();
+            CreateCollectionIfNotExistsAsync().Wait();
+        }
         public static async Task<T> GetItemAsync(string id)
         {
             try
@@ -86,12 +99,7 @@ namespace Logic.Utils
             await client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id));
         }
 
-        public static void Initialize()
-        {
-            client = new DocumentClient(new Uri(Endpoint), Key);
-            CreateDatabaseIfNotExistsAsync().Wait();
-            CreateCollectionIfNotExistsAsync().Wait();
-        }
+
 
         private static async Task CreateDatabaseIfNotExistsAsync()
         {
