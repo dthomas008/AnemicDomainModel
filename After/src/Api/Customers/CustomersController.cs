@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Logic.Customers;
 using Logic.Movies;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
 
 namespace Api.Movies
 {
@@ -136,31 +138,31 @@ namespace Api.Movies
 
     [HttpPost]
     [Route("{id}/movies")]
-    public IActionResult PurchaseMovie(long id, [FromBody] long movieId)
+    public async Task<IActionResult> PurchaseMovie(string id, [FromBody] long movieId)
     {
       Movie movie = _movieRepository.GetById(movieId);
       if (movie == null)
         return Error("Invalid movie id: " + movieId);
 
-      Customer customer;//= _customerRepository.GetById(id);
-      //if (customer == null)
-      //  return Error("Invalid customer id: " + id);
+      Customer customer = await DocumentDBRepository<Customer>.GetItemAsync(id);
+      if (customer == null)
+        return Error("Invalid customer id: " + id);
 
       //if (customer.HasPurchasedMovie(movie))
       //  return Error("The movie is already purchased: " + movie.Name);
 
-     // customer.PurchaseMovie(movie);
+      // customer.PurchaseMovie(movie);
 
       return Ok();
     }
 
     [HttpPost]
     [Route("{id}/promotion")]
-    public IActionResult PromoteCustomer(long id)
+    public async Task<IActionResult> PromoteCustomer(string id)
     {
-      Customer customer = null;// = _customerRepository.GetById(id);
-      //if (customer == null)
-      //  return Error("Invalid customer id: " + id);
+      Customer customer = await DocumentDBRepository<Customer>.GetItemAsync(id);
+      if (customer == null)
+        return Error("Invalid customer id: " + id);
 
       Result promotionCheck = customer.CanPromote();
       if (promotionCheck.IsFailure)

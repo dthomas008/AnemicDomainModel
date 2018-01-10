@@ -1,5 +1,6 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace Logic.Customers
 {
@@ -10,7 +11,7 @@ namespace Logic.Customers
         public DateTime? Date { get; }
 
         public bool IsExpired => this != Infinite && Date < DateTime.UtcNow;
-
+        [JsonConstructor]
         private ExpirationDate(DateTime? date)
         {
             Date = date;

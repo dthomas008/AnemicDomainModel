@@ -4,6 +4,7 @@ using System.Linq;
 using CSharpFunctionalExtensions;
 using Logic.Common;
 using Logic.Movies;
+using Newtonsoft.Json;
 
 namespace Logic.Customers
 {
@@ -30,7 +31,7 @@ namespace Logic.Customers
 
         private readonly IList<PurchasedMovie> _purchasedMovies;
         public virtual IReadOnlyList<PurchasedMovie> PurchasedMovies => _purchasedMovies.ToList();
-
+        //[JsonConstructor] this does not work here
         protected Customer()
         {
             _purchasedMovies = new List<PurchasedMovie>();
@@ -43,6 +44,20 @@ namespace Logic.Customers
 
             MoneySpent = Dollars.Of(0);
             Status = CustomerStatus.Regular;
+        }
+        /* 
+        This attribute must be carefully choosen down the whole object
+        model (aggregate root) or the objects will not deserialize correctly from CosmosDB
+        Note we can keep the constructor private
+        */
+        [JsonConstructor]   
+        private Customer(CustomerName name, Email email, Dollars moneySpent, CustomerStatus status) : this()
+        {
+            _name = name ?? throw new ArgumentNullException(nameof(name));
+            _email = email ?? throw new ArgumentNullException(nameof(email));
+            MoneySpent = moneySpent;
+            Status = status;
+
         }
 
         public virtual bool HasPurchasedMovie(Movie movie)

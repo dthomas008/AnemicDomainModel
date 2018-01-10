@@ -1,5 +1,6 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace Logic.Customers
 {
@@ -13,11 +14,11 @@ namespace Logic.Customers
         public ExpirationDate ExpirationDate => (ExpirationDate)_expirationDate;
 
         public bool IsAdvanced => Type == CustomerStatusType.Advanced && !ExpirationDate.IsExpired;
-
+        
         private CustomerStatus()
         {
         }
-
+        [JsonConstructor]
         private CustomerStatus(CustomerStatusType type, ExpirationDate expirationDate)
             : this()
         {
