@@ -49,6 +49,7 @@ namespace Logic.Customers
         This attribute must be carefully choosen down the whole object
         model (aggregate root) or the objects will not deserialize correctly from CosmosDB
         Note we can keep the constructor private
+        Also this constructor only exists for JSON deserialization
         */
         [JsonConstructor]   
         private Customer(CustomerName name, Email email, Dollars moneySpent, CustomerStatus status) : this()
