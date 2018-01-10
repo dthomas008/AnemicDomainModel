@@ -9,7 +9,7 @@ namespace Logic.Customers
     public class PurchasedMovie : Entity
     {
         public virtual Movie Movie { get; protected set; }
-       // [JsonProperty(IsReference = true, PropertyName = "_customer")]
+        [JsonProperty(IsReference = true, PropertyName = "_customer", TypeNameHandling =TypeNameHandling.All)]
         private Customer _customer;
         //[JsonIgnore]
         public virtual Customer Customer { get {
