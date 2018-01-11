@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Logic.Customers;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -67,6 +68,22 @@ namespace Logic.Utils
             }
 
             return results;
+        }
+        public static async Task<Customer> GetCustomerByEmail(Email email)
+        {
+            IDocumentQuery<Customer> query = client.CreateDocumentQuery<Customer>(
+                UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
+                new FeedOptions { MaxItemCount = -1 })
+                .Where(cust => cust.Email.Value  == email.Value )
+                .AsDocumentQuery();
+
+            List<Customer> results = new List<Customer>();
+            while (query.HasMoreResults)
+            {
+                results.AddRange(await query.ExecuteNextAsync<Customer>());
+            }
+
+            return results[0];
         }
         public static async Task<IEnumerable<T>> GetCustomersAsync()
         {

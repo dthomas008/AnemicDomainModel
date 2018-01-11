@@ -46,6 +46,13 @@ namespace Logic.IntegrationTests
             await DocumentDBRepository<Customer>.CreateItemAsync(cust);
         }
         [TestMethod]
+        public async Task Get_Customer_by_email()
+        {
+            Email fred = Email.Create("fred@fred.com").Value;
+            Customer cust = await DocumentDBRepository<Customer>.GetCustomerByEmail(fred);
+            cust.Email.Should().Be(fred);
+        }
+        [TestMethod]
         public async Task Create_New_Customer_and_Buy_two_movies()
         {
             Customer cust = new Customer(CustomerName.Create("Tester").Value,
@@ -66,8 +73,6 @@ namespace Logic.IntegrationTests
             cust.PurchaseMovie(movie2);
             cust.PurchaseMovie(movie);
             cust.PurchasedMovies.Count.Should().Be(2);
-            //cust.Promote();
-            //cust.Status.Should().Be(CustomerStatusType.Advanced);
             await DocumentDBRepository<Customer>.UpdateItemAsync(rogerId, cust);
 
         }
@@ -92,7 +97,7 @@ namespace Logic.IntegrationTests
 
         //}
         [TestMethod]
-        public async Task Deserialize_With_Circular_reference()
+        public void Deserialize_With_Circular_reference()
         {
             
             Customer cust = new Customer(CustomerName.Create("Fred").Value,
