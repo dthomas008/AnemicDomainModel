@@ -13,18 +13,18 @@ namespace Api.Movies
   [Route("api/[controller]")]
   public class MoviesController: BaseController
     {
-    private readonly MovieRepository _movieRepository;
+    //private readonly MovieRepository _movieRepository;
 
 
-    public MoviesController(UnitOfWork unitOfWork, MovieRepository movieRepository)
+    public MoviesController()
         : base()
     {
-      _movieRepository = movieRepository;
+      
     }
     [HttpGet]
-    public IActionResult GetList()
+    public async Task<IActionResult> GetList()
     {
-      IReadOnlyList<Movie> customers = _movieRepository.GetList();
+      IEnumerable<Movie> customers = await DocumentDBRepository<Movie>.GetAllItemsAsync();
 
       List<MovieDto> dtos = customers.Select(x => new MovieDto
       {

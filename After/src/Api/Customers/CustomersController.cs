@@ -15,7 +15,7 @@ namespace Api.Movies
   [Route("api/[controller]")]
   public class CustomersController : BaseController
   {
-    private readonly MovieRepository _movieRepository;
+   // private readonly MovieRepository _movieRepository;
     //private readonly CustomerRepository _customerRepository;
 
     public CustomersController() // UnitOfWork unitOfWork, MovieRepository movieRepository CustomerRepository customerRepository
@@ -62,7 +62,7 @@ namespace Api.Movies
     public async Task<IActionResult> GetList()
     {
       // IReadOnlyList<Customer> customers = _customerRepository.GetList();
-      IEnumerable<Customer> customers = await DocumentDBRepository<Customer>.GetCustomersAsync();
+      IEnumerable<Customer> customers = await DocumentDBRepository<Customer>.GetAllItemsAsync();
 
       List<CustomerInListDto> dtos = customers.Select(x => new CustomerInListDto
       {
@@ -91,7 +91,6 @@ namespace Api.Movies
         return Error("Email is already in use: " + item.Email);
 
       var customer = new Customer(customerNameOrError.Value, emailOrError.Value);
-      //_customerRepository.Add(customer);
       await DocumentDBRepository<Customer>.CreateItemAsync(customer);
 
       return Ok();
@@ -140,7 +139,7 @@ namespace Api.Movies
     [Route("{id}/movies")]
     public async Task<IActionResult> PurchaseMovie(string id, [FromBody] long movieId)
     {
-      Movie movie = _movieRepository.GetById(movieId);
+      Movie movie = await DocumentDBRepository<Movie>.GetItemAsync(id);
       if (movie == null)
         return Error("Invalid movie id: " + movieId);
 
@@ -148,11 +147,11 @@ namespace Api.Movies
       if (customer == null)
         return Error("Invalid customer id: " + id);
 
-      //if (customer.HasPurchasedMovie(movie))
-      //  return Error("The movie is already purchased: " + movie.Name);
+      if (customer.HasPurchasedMovie(movie))
+        return Error("The movie is already purchased: " + movie.Name);
 
-      // customer.PurchaseMovie(movie);
-
+      customer.PurchaseMovie(movie);
+      await DocumentDBRepository<Customer>.UpdateItemAsync(id, customer);
       return Ok();
     }
 
@@ -169,7 +168,7 @@ namespace Api.Movies
         return Error(promotionCheck.Error);
 
       customer.Promote();
-
+      await DocumentDBRepository<Customer>.UpdateItemAsync(id, customer);
       return Ok();
     }
   }

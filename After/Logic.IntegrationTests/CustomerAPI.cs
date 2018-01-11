@@ -42,6 +42,25 @@ namespace Logic.IntegrationTests
             await DocumentDBRepository<Customer>.CreateItemAsync(cust);
         }
         [TestMethod]
+        public async Task Create_New_TwoDaysMovie()
+        {
+            Movie movie = new TwoDaysMovie("Pulp Fiction");
+            await DocumentDBRepository<Movie>.CreateItemAsync(movie);
+            
+        }
+        [TestMethod]
+        public async Task Create_New_LifeLongMovie()
+        {
+            Movie movie = new LifeLongMovie("Reservoir Dogs");
+            await DocumentDBRepository<Movie>.CreateItemAsync(movie);
+            
+        }
+        [TestMethod]
+        public async Task Get_LifeLongMovie()
+        {
+            Movie movie = await DocumentDBRepository<Movie>.GetMovieByNameAsync("Reservoir Dogs");         
+        }
+        [TestMethod]
         public async Task Get_Customer_by_email()
         {         
             Customer cust = await DocumentDBRepository<Customer>.GetCustomerByEmail(fred);

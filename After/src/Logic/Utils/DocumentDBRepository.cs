@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Customers;
+using Logic.Movies;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -18,7 +19,7 @@ namespace Logic.Utils
         private static readonly string Endpoint = "https://localhost:8081";
         private static readonly string Key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
         private static readonly string DatabaseId = "OnlineTheaterV2";
-        private static readonly string CollectionId = "Customers";
+        private static readonly string CollectionId = typeof(T).Name; //"Customers";
         private static DocumentClient client;
         public static JsonSerializerSettings jsonSettings => new JsonSerializerSettings
         {
@@ -32,11 +33,12 @@ namespace Logic.Utils
             CreateCollectionIfNotExistsAsync().Wait();
         }
 
-       
+
         public static async Task<T> GetItemAsync(string id)
         {
             try
             {
+
                 Document document = await client.ReadDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id));
                 return (T)(dynamic)document;
             }
@@ -51,6 +53,22 @@ namespace Logic.Utils
                     throw;
                 }
             }
+        }
+        public static async Task<Movie> GetMovieByNameAsync(string name)
+        {
+            IDocumentQuery<Movie> query = client.CreateDocumentQuery<Movie>(
+                 UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
+                 new FeedOptions { MaxItemCount = -1 })
+                 .Where(movie => movie.Name == name)
+                 .AsDocumentQuery();
+
+            List<Movie> results = new List<Movie>();
+            while (query.HasMoreResults)
+            {
+                results.AddRange(await query.ExecuteNextAsync<Movie>());
+            }
+
+            return results[0];
         }
 
         public static async Task<IEnumerable<T>> GetItemsAsync(Expression<Func<T, bool>> predicate)
@@ -74,7 +92,7 @@ namespace Logic.Utils
             IDocumentQuery<Customer> query = client.CreateDocumentQuery<Customer>(
                 UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
                 new FeedOptions { MaxItemCount = -1 })
-                .Where(cust => cust.Email.Value  == email.Value )
+                .Where(cust => cust.Email.Value == email.Value)
                 .AsDocumentQuery();
 
             List<Customer> results = new List<Customer>();
@@ -85,7 +103,7 @@ namespace Logic.Utils
 
             return results[0];
         }
-        public static async Task<IEnumerable<T>> GetCustomersAsync()
+        public static async Task<IEnumerable<T>> GetAllItemsAsync()
         {
             IDocumentQuery<T> query = client.CreateDocumentQuery<T>(
                 UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
