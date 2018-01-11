@@ -1,0 +1,26 @@
+<p-dataTable [value]="movies?.result" [resizableColumns]="true">
+  <p-column field="id" header="Id">
+    <ng-template let-col let-customer="rowData" pTemplate="body">
+      <a [routerLink]="['/custList/',customer[col.field]]">Edit Movie</a>
+    </ng-template>
+  </p-column>
+  <p-column field="name" header="Name"></p-column>
+  <!-- <p-column field="email" header="Email"></p-column>
+  <p-column field="status" header="Status"></p-column>
+  <p-column field="statusExpirationDate" header="Expire Date">
+    <ng-template let-col let-customer="rowData" pTemplate="body">
+      {{customer[col.field]|date }}
+    </ng-template>
+  </p-column>
+  <p-column field="moneySpent" header="Total Spent">
+    <ng-template let-col let-customer="rowData" pTemplate="body">
+      {{customer[col.field]|currency }}
+    </ng-template>
+  </p-column> -->
+  <p-footer>
+    <div class="ui-helper-clearfix" style="width:100%">
+      <!-- <button type="button" pButton icon="fa-plus" style="float:left" (click)="addSimple()" label="Add Simple"></button>
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add Unique Email Check local"></button> -->
+    </div>
+  </p-footer>
+</p-dataTable>

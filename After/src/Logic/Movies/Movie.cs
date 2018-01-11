@@ -26,6 +26,20 @@ namespace Logic.Movies
         }
 
         protected abstract Dollars GetBasePrice();
+        public static Movie Create(String name, LicensingModel lmodel) {
+            if (name == null || name.Trim() == string.Empty)
+                throw new ArgumentException(nameof(name));
+            switch (lmodel)
+            {
+                case LicensingModel.TwoDays:
+                    return new TwoDaysMovie(name);
+                case LicensingModel.LifeLong:
+                    return new LifeLongMovie(name);
+                default:
+                    throw new ArgumentException(nameof(lmodel));
+            }
+
+        }
     }
     
     public class TwoDaysMovie : Movie
@@ -40,7 +54,6 @@ namespace Logic.Movies
         {
             return (ExpirationDate)DateTime.UtcNow.AddDays(2);
         }
-
         protected override Dollars GetBasePrice()
         {
             return Dollars.Of(4);
@@ -59,7 +72,6 @@ namespace Logic.Movies
         {
             return ExpirationDate.Infinite;
         }
-
         protected override Dollars GetBasePrice()
         {
             return Dollars.Of(8);

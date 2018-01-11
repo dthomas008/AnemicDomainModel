@@ -13,13 +13,16 @@ import { CustomerService } from './customer.service';
 import { DataTableModule, SharedModule, ButtonModule, DialogModule, PanelModule, MenuModule } from 'primeng/primeng';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CustomerEditComponent } from './customer-edit/customer-edit.component';
+import { MovieListComponent } from './movie-list/movie-list.component';
+import { MovieService } from './movie.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
     CustomerFormComponent,
-    CustomerEditComponent
+    CustomerEditComponent,
+    MovieListComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -29,6 +32,7 @@ import { CustomerEditComponent } from './customer-edit/customer-edit.component';
     RouterModule.forRoot([
       { path: 'welcome', component: AppComponent },
       { path: 'custList', component: CustomerListComponent },
+      { path: 'movieList', component: MovieListComponent },
       { path: 'custAdd', component: CustomerFormComponent },
       { path: 'custList/:id', component: CustomerEditComponent },
       { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -42,7 +46,7 @@ import { CustomerEditComponent } from './customer-edit/customer-edit.component';
     MenuModule
 
   ],
-  providers: [CustomerService, HttpClient, FormBuilder],
+  providers: [MovieService, CustomerService, HttpClient, FormBuilder],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

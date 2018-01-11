@@ -34,5 +34,17 @@ namespace Api.Movies
 
       return Ok(dtos);
     }
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync([FromBody] CreateMovieDto item)
+    {
+      if (item.Name == null || item.Name.Trim() == string.Empty )
+        return Error("Name required");
+      LicensingModel lmodel = (LicensingModel)item.LicensingModel;
+
+      var movie = Movie.Create(item.Name, lmodel);
+      await DocumentDBRepository<Movie>.CreateItemAsync(movie);
+
+      return Ok();
+    }
   }
 }
