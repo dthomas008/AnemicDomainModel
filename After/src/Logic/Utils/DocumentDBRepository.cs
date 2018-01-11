@@ -20,19 +20,19 @@ namespace Logic.Utils
         private static readonly string DatabaseId = "OnlineTheaterV2";
         private static readonly string CollectionId = "Customers";
         private static DocumentClient client;
+        public static JsonSerializerSettings jsonSettings => new JsonSerializerSettings
+        {
+            PreserveReferencesHandling = PreserveReferencesHandling.All,
+            TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All
+        };
         public static void Initialize()
         {
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
-                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All
-                
-
-            };
             client = new DocumentClient(new Uri(Endpoint), Key, jsonSettings);
             CreateDatabaseIfNotExistsAsync().Wait();
             CreateCollectionIfNotExistsAsync().Wait();
         }
+
+       
         public static async Task<T> GetItemAsync(string id)
         {
             try
