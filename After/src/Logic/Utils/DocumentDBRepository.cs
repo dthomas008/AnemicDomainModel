@@ -16,7 +16,7 @@ namespace Logic.Utils
 
         private static readonly string Endpoint = "https://localhost:8081";
         private static readonly string Key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-        private static readonly string DatabaseId = "OnlineTheater";
+        private static readonly string DatabaseId = "OnlineTheaterV2";
         private static readonly string CollectionId = "Customers";
         private static DocumentClient client;
         public static void Initialize()
@@ -24,8 +24,8 @@ namespace Logic.Utils
             JsonSerializerSettings jsonSettings = new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All,
-                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All
+                
 
             };
             client = new DocumentClient(new Uri(Endpoint), Key, jsonSettings);

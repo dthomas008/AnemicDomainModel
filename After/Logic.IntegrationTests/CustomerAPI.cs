@@ -13,14 +13,14 @@ namespace Logic.IntegrationTests
     [TestClass]
     public class CustomerAPI
     {
-        string rogerId = "aea06b41-6354-41dd-9ddd-5e7ca3b589f9";// "3ac98d16-d023-4153-87fb-7702131807a7";
+        string rogerId = "24bed2a7-a266-4c7a-a446-7996807d30a6";// "3ac98d16-d023-4153-87fb-7702131807a7";
         string wilmaId = "d78d16c5-f265-43e9-af7f-32aed5fa73ad";
         JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            //NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+            //ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+            
 
 
         };
@@ -36,7 +36,7 @@ namespace Logic.IntegrationTests
         {
             var response = await ts.Client.GetAsync("/api/customers");
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            //response.Content.
+            
         }
         [TestMethod]
         public async Task Create_New_Customer()
@@ -72,27 +72,27 @@ namespace Logic.IntegrationTests
 
         }
         [TestMethod]
-        public async Task Betty_Has_bought_Two_Movies()
+        public async Task Customer_Has_bought_Two_Movies()
         {
             
            Customer cust = await DocumentDBRepository<Customer>.GetItemAsync(rogerId);
-           //cust.PurchasedMovies.Count.Should().Be(2);
+           cust.PurchasedMovies.Count.Should().Be(2);
 
         }
 
+        //[TestMethod]
+        //public async Task Deserialize_With_Circular_reference()
+        //{
+ 
+        //    string source = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Customer.json"));
+        //    // C: \Users\cyber\source\repos\AnemicDomainModel\After\Logic.IntegrationTests\Customer.json
+
+        //    Customer cust = JsonConvert.DeserializeObject<Customer>(source,jsonSettings);
+        //    //cust.PurchasedMovies.Count.Should().Be(2);
+
+        //}
         [TestMethod]
         public async Task Deserialize_With_Circular_reference()
-        {
- 
-            string source = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Customer.json"));
-            // C: \Users\cyber\source\repos\AnemicDomainModel\After\Logic.IntegrationTests\Customer.json
-
-            Customer cust = JsonConvert.DeserializeObject<Customer>(source,jsonSettings);
-            //cust.PurchasedMovies.Count.Should().Be(2);
-
-        }
-        [TestMethod]
-        public async Task Create_New_Customer_Container()
         {
             
             Customer cust = new Customer(CustomerName.Create("Fred").Value,
@@ -101,22 +101,18 @@ namespace Logic.IntegrationTests
             Movie movie2 = new LifeLongMovie("Reservoir Dogs");
             cust.PurchaseMovie(movie2);
             cust.PurchaseMovie(movie);
-            CustomerContainer cont = new CustomerContainer();
-            cont.cust = cust;
-            //await DocumentDBRepository<CustomerContainer>.CreateItemAsync(cont);
-            string output = JsonConvert.SerializeObject(cont,jsonSettings);
+            string output = JsonConvert.SerializeObject(cust, jsonSettings);
 
-            CustomerContainer result = JsonConvert.DeserializeObject<CustomerContainer>(output, jsonSettings);
-            result.cust.PurchasedMovies[0].Customer.Should().NotBeNull();
+            Customer result = JsonConvert.DeserializeObject<Customer>(output, jsonSettings);
+            result.PurchasedMovies[0].Customer.Should().NotBeNull();
+            result.PurchasedMovies[0].Movie.Should().NotBeNull();
+            result.PurchasedMovies.Count.Should().Be(2);
+            result.MoneySpent.Value.Should().Be(12);
+            result.Name.Value.Should().Be("Fred");
+            result.Email.Value.Should().Be("fred@fred.com");
+            result.Status.IsAdvanced.Should().BeFalse();
 
         }
     }
 
-
-    public class CustomerContainer {
-        // soley to test why the refrence resolve to the root object is not working
-        // found the dam bug here https://github.com/JamesNK/Newtonsoft.Json/pull/1567
-        public Customer cust { get; set; }
-
-    }
 }
