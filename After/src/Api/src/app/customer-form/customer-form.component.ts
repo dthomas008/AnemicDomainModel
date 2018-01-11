@@ -40,7 +40,7 @@ export class CustomerFormComponent implements OnInit {
   saveCustomer(cust: CreateCustomerDto) {
     if (this.customerForm.dirty && this.customerForm.valid) {
       // Copy the form values over the customer object values
-      let c = Object.assign({}, cust, this.customerForm.value);
+      const c = Object.assign({}, cust, this.customerForm.value);
 
       this.custServ.createCustomer(c)
         .subscribe(
