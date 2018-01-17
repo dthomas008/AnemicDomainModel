@@ -14,7 +14,6 @@ describe('WipService', () => {
   }));
 
   it('should store a wip and retrieve it', inject([WipService], (service: WipService) => {
-    console.log('should store a wip and retrieve it');
     const testData = {
       firstName: 'Fred',
       lastName: 'Stone'

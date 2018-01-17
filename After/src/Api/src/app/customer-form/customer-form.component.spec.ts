@@ -5,6 +5,7 @@ import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerService } from '../customer.service';
 import { HttpClientModule } from '@angular/common/http';
+import { WipService } from '../utils/wip.service';
 
 describe('CustomerFormComponent', () => {
   let component: CustomerFormComponent;
@@ -15,7 +16,7 @@ describe('CustomerFormComponent', () => {
       imports: [RouterTestingModule, ReactiveFormsModule, HttpClientModule],
       declarations: [ CustomerFormComponent ],
       schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-      providers: [CustomerService]
+      providers: [CustomerService, WipService]
     })
     .compileComponents();
   }));
