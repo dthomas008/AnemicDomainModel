@@ -25,11 +25,11 @@
         <span class="ui-g-5" *ngIf="(customerForm.get('email').touched || 
         customerForm.get('email').dirty) && 
         customerForm.get('email').errors">
-          <span *ngIf="customerForm.get('email').errors.required">
+          <!-- <span *ngIf="customerForm.get('email').errors.required">
             Please enter your email.
-          </span>
-          <span *ngIf="customerForm.get('email').errors.pattern">
-            Please enter a valid email.
+          </span> -->
+          <span *ngIf="customerForm.get('email').errors.email">
+           {{customerForm.get('email').errors.email}}
           </span>
 
         </span>
@@ -47,6 +47,7 @@
       </div>
       <div class="ui-g">
         <button class="ui-g-2" type="submit" pButton icon="fa-check" label="Save" [disabled]='!customerForm.valid'></button>
+        <button class="ui-g-2" type="submit" pButton icon="fa-reset" label="Reset" ></button>
       </div>
       <p-panel header="Debug Information">
         <br>Dirty: {{ customerForm.dirty }}

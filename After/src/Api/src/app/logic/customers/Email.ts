@@ -10,12 +10,12 @@ export class Email {
     }
     static  Create(email: string): GenericResult<Email> {
 
-        if (email.length === 0) {
+        if (email === null || email.length === 0) {
             return GenericResult.Fail<Email>('Email should not be empty');
         }
         const emailCheck: RegExp = new RegExp('^(.+)@(.+)$');
         if (!emailCheck.test(email)) {
-            return GenericResult.Fail<Email>('Customer name is too long');
+            return GenericResult.Fail<Email>('Email is invalid');
         }
         return GenericResult.Ok<Email>(new Email(email));
     }

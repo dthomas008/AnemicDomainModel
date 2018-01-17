@@ -108,7 +108,9 @@ namespace Api.Movies
     }
     private async Task<bool> emailInUse(Result<Email> email)
     {
-      var custs = await DocumentDBRepository<Customer>.GetItemsAsync(cust => cust.Email == email.Value);
+      // Make sure the predicate is comparing the correct objects at the correct level
+      // not the wrapper or result
+      var custs = await DocumentDBRepository<Customer>.GetItemsAsync(cust => cust.Email.Value == email.Value);
       if (custs.Count() > 0)
         return true;
       else

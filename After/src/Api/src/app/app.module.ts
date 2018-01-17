@@ -15,6 +15,7 @@ import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CustomerEditComponent } from './customer-edit/customer-edit.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieService } from './movie.service';
+import { WipService } from './utils/wip.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { MovieService } from './movie.service';
     MenuModule
 
   ],
-  providers: [MovieService, CustomerService, HttpClient, FormBuilder],
+  providers: [MovieService, CustomerService, HttpClient, FormBuilder, WipService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
