@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj", "{36484BFF-E628-49BD-BF49-01BAD88D69E3}"
 EndProject
@@ -12,9 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{85
 		src\Database.sql = src\Database.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic.Tests", "Logic.Tests\Logic.Tests.csproj", "{EDE0DF23-1E92-4500-891C-77BE4AD95D1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic.Tests", "Logic.Tests\Logic.Tests.csproj", "{EDE0DF23-1E92-4500-891C-77BE4AD95D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic.IntegrationTests", "Logic.IntegrationTests\Logic.IntegrationTests.csproj", "{B16060E4-B808-4E55-844C-51861002F52D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic.IntegrationTests", "Logic.IntegrationTests\Logic.IntegrationTests.csproj", "{B16060E4-B808-4E55-844C-51861002F52D}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FLogic", "FLogic\FLogic.fsproj", "{6D83C7A4-5AB0-42DF-B979-A6D97222E245}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Flogic.Tests", "Flogic.Tests\Flogic.Tests.fsproj", "{3BABFB6E-366B-42F0-BF60-F498B9F45768}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +42,14 @@ Global
 		{B16060E4-B808-4E55-844C-51861002F52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B16060E4-B808-4E55-844C-51861002F52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B16060E4-B808-4E55-844C-51861002F52D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D83C7A4-5AB0-42DF-B979-A6D97222E245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D83C7A4-5AB0-42DF-B979-A6D97222E245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D83C7A4-5AB0-42DF-B979-A6D97222E245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D83C7A4-5AB0-42DF-B979-A6D97222E245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BABFB6E-366B-42F0-BF60-F498B9F45768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BABFB6E-366B-42F0-BF60-F498B9F45768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BABFB6E-366B-42F0-BF60-F498B9F45768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BABFB6E-366B-42F0-BF60-F498B9F45768}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
