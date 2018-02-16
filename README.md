@@ -1,4 +1,7 @@
 Added Angular client to explore client side design patterns in line with this course.
+
+Also, changed the back end database to CosmosDB.  You should install the local CosmosDB emualtor to run this locally.
+
 Run ng build --watch in the api directory then launch visual studio.
 
 Welcome to Refactoring from Anemic Domain Model Towards a Rich One
