@@ -79,10 +79,12 @@ namespace Api.Movies
     }
     [HttpPost]
     [Route("FCreate")]
-    public IActionResult FCreate([FromBody] FLogic.Customers.CustomerDTO item)
+    public async Task<IActionResult> FCreateAsync([FromBody] FLogic.Customers.CustomerDTO item)
     {
 
       var cust = Customers.validateCustomer(item);
+      // if we got here we went through all the validation logic in F# so we are good so save
+      await DocumentDBRepository<Customers.Customer>.CreateItemAsync(cust);
 
       return Ok(cust);
     }

@@ -44,6 +44,7 @@ namespace Api.Utils
       });
       DocumentDBRepository<Customer>.Initialize();
       DocumentDBRepository<Movie>.Initialize();
+      DocumentDBRepository<FLogic.Customers.Customer>.Initialize();
     }
   }
 }

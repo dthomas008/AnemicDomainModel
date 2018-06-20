@@ -19,7 +19,7 @@ namespace Logic.Utils
         private static readonly string Endpoint = "https://localhost:8081";
         private static readonly string Key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
         private static readonly string DatabaseId = "OnlineTheaterV2";
-        private static readonly string CollectionId = typeof(T).Name; //"Customers";
+        private static readonly string CollectionId = typeof(T).FullName; //"Customers";
         private static DocumentClient client;
         public static JsonSerializerSettings jsonSettings => new JsonSerializerSettings
         {
