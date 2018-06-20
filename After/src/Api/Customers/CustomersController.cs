@@ -9,6 +9,7 @@ using Logic.Movies;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
+using FLogic;
 
 namespace Api.Movies
 {
@@ -76,7 +77,15 @@ namespace Api.Movies
 
       return Ok(dtos);
     }
+    [HttpPost]
+    [Route("FCreate")]
+    public IActionResult FCreate([FromBody] FLogic.Customers.CustomerDTO item)
+    {
 
+      var cust = Customers.validateCustomer(item);
+
+      return Ok(cust);
+    }
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateCustomerDto item)
     {
