@@ -76,15 +76,17 @@ export class MovieFormComponent implements OnInit, AfterViewInit {
       // this is the traditional way to do it.
       // Maybe using the domain objects is what we really want
       const c = Object.assign({}, mov, this.movieForm.value);
-
+      console.log(c);
       this.movServ.createMovie(c)
         .subscribe(
           (data) => {
+            console.log("Success " + c);
             console.log(data);
             this.message = 'Save complete.';
             this.onSaveComplete();
           },
           (error: any) => {
+            console.log("Failure " + c);
             console.log(error);
             this.message = 'Error saving.';
             this.onSaveComplete();

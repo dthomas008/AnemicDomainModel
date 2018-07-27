@@ -3,10 +3,7 @@
 export interface Movie {
   id: string;
   name: string;
-  email: string;
-  status: string;
-  statusExpirationDate?: Date;
-  moneySpent: number;
+  genre: string;
 }
 
 export interface MovieResult {
@@ -17,6 +14,6 @@ export interface MovieResult {
 
 export class CreateMovieDto {
   public name: string;
-  public email: string;
+  public genre: string;
 }
 
