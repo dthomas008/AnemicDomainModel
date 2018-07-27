@@ -13,6 +13,7 @@ import { CustomerService } from './customer.service';
 import { DataTableModule, SharedModule, ButtonModule, DialogModule, PanelModule, MenuModule } from 'primeng/primeng';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CustomerEditComponent } from './customer-edit/customer-edit.component';
+import { MovieFormComponent } from './movie-form/movie-form.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieService } from './movie.service';
 import { WipService } from './utils/wip.service';
@@ -23,6 +24,7 @@ import { WipService } from './utils/wip.service';
     CustomerListComponent,
     CustomerFormComponent,
     CustomerEditComponent,
+    MovieFormComponent,
     MovieListComponent
   ],
   imports: [
@@ -34,6 +36,7 @@ import { WipService } from './utils/wip.service';
       { path: 'welcome', component: AppComponent },
       { path: 'custList', component: CustomerListComponent },
       { path: 'movieList', component: MovieListComponent },
+      { path: 'movieAdd', component: MovieFormComponent },
       { path: 'custAdd', component: CustomerFormComponent },
       { path: 'custList/:id', component: CustomerEditComponent },
       { path: '', redirectTo: '/', pathMatch: 'full' },

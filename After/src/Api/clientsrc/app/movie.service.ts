@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Envelope } from './utils/Envelope';
-import { MovieDto } from './movie-dtos';
+import { CreateMovieDto, MovieResult, Movie } from './movie-result';
 
 @Injectable()
 export class MovieService {
@@ -10,25 +10,24 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
 
-  getMovies(): Observable<Envelope<MovieDto[]>> {
-    return this.http.get<Envelope<MovieDto[]>>('api/Movies');
+  getMovies(): Observable<MovieResult> {
+    return this.http.get<MovieResult>('api/movies');
   }
-  // getCustomer(id: string): Observable<Envelope<Customer>> {
-  //   return this.http.get<Envelope<Customer>>('api/customers/' + id);
-  // }
-  // createCustomer(customer: CreateCustomerDto): Observable<CustomerResult>  {
-  //   return this.http.post<CustomerResult>('api/customers', customer);
+  getMovie(id: string): Observable<Envelope<Movie>> {
+    return this.http.get<Envelope<Movie>>('api/movies/' + id);
+  }
+  createMovie(customer: CreateMovieDto): Observable<MovieResult>  {
+     return this.http.post<MovieResult>('api/movies', customer);
+  }
+  updateMovie(id: string, customer: CreateMovieDto): Observable<MovieResult>  {
+     return this.http.put<MovieResult>('api/movies/' + id, customer);
 
-  // }
-  // updateCustomer(id: string, customer: CreateCustomerDto): Observable<CustomerResult>  {
-  //   return this.http.put<CustomerResult>('api/customers/' + id, customer);
-
-  // }
-  // uniqueEmail(email: string): Observable<CustomerResult>  {
-  //   const input = new CreateCustomerDto();
-  //   input.email = email;
-  //   return this.http.post<CustomerResult>('api/customers/email', input); 
-  // }
+   }
+  uniqueEmail(email: string): Observable<MovieResult>  {
+    const input = new CreateMovieDto();
+     input.email = email;
+     return this.http.post<MovieResult>('api/movies/email', input); 
+   }
   private handleError(error: any) {
     console.log(error);
     return Observable.throw(error.json());

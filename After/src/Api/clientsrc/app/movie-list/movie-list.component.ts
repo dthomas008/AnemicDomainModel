@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieDto } from '../movie-dtos';
 import { MovieService } from '../movie.service';
-import { Envelope } from '../utils/Envelope';
+import { MovieResult, Movie, CreateMovieDto } from '../movie-result';
 
 @Component({
   selector: 'app-movie-list',
@@ -10,7 +9,9 @@ import { Envelope } from '../utils/Envelope';
 })
 export class MovieListComponent implements OnInit {
 
-  movies: Envelope<MovieDto[]>;
+  movies: MovieResult;
+  newMovie: CreateMovieDto;
+  displayDialog: boolean;
 
   constructor(private movieServ: MovieService) { }
   
@@ -20,6 +21,11 @@ export class MovieListComponent implements OnInit {
         this.movies = data;
       }
     );
+  }
+
+  addSimple() {
+    this.newMovie = new CreateMovieDto();
+    this.displayDialog = true;
   }
 
 }

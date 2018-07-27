@@ -15,10 +15,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItems = [
-      {label: 'Home', icon: 'fa-home', routerLink: ['/'] },
-      {label: 'Add Customer', icon: 'fa-tasks', routerLink: ['/custAdd'] },
-      {label: 'List Customers', icon: 'fa-users', routerLink: ['/custList'] },
-      {label: 'List Movies', icon: 'fa-ticket', routerLink: ['/movieList'] }
+      { label: 'Home', icon: 'fa-home', routerLink: ['/'] },
+      { label: 'Add Customer', icon: 'fa-tasks', routerLink: ['/custAdd'] },
+      { label: 'List Customers', icon: 'fa-users', routerLink: ['/custList'] },
+      { label: 'Add Movie', icon: 'fa-tasks', routerLink: ['/movieAdd'] },
+      { label: 'List Movies', icon: 'fa-ticket', routerLink: ['/movieList'] }
     ];
   }
 }

@@ -1,0 +1,46 @@
+<p-panel header="Add Movie">
+  <form novalidate (ngSubmit)="saveMovie()" [formGroup]="movieForm">
+    <div class="ui-g">
+      <label class="ui-g-2" for="name">Name: </label>
+      <!-- <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span> -->
+      <input class="ui-g-4" type="text" pInputText id="name" placeholder="Name (required)" formControlName="name" />
+      <span class="ui-g-6" *ngIf="(movieForm.get('name').touched ||
+        movieForm.get('name').dirty) &&
+        movieForm.get('name').errors">
+        <span *ngIf="movieForm.get('name').errors.required">
+          Please enter your name.
+        </span>
+        <span *ngIf="movieForm.get('name').errors.minlength">
+          The first name must be longer than 3 characters.
+        </span>
+      </span>
+    </div>
+    <div class="ui-g">
+      <label class="ui-g-2" for="name">Genre: </label>
+      <!-- <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span> -->
+      <input class="ui-g-4" type="text" pInputText id="genre" placeholder="Genre" formControlName="genre" />
+      <span class="ui-g-6" *ngIf="(movieForm.get('genre').touched ||
+        movieForm.get('genre').dirty) &&
+        movieForm.get('genre').errors">
+        <span *ngIf="movieForm.get('genre').errors.required">
+          Please enter a genre.
+        </span>
+        <span *ngIf="movieForm.get('genre').errors.minlength">
+          The first name must be longer than 5 characters.
+        </span>
+      </span>
+    </div>
+    <div class="ui-g">
+      <button class="ui-g-2" type="submit" pButton icon="fa-check" label="Save" [disabled]='!movieForm.valid'></button>
+      <button class="ui-g-2" type="submit" pButton icon="fa-reset" label="Reset"></button>
+    </div>
+    <p-panel header="Debug Information">
+      <br>Dirty: {{ movieForm.dirty }}
+      <br>Touched: {{ movieForm.touched }}
+      <br>Valid: {{ movieForm.valid }}
+      <br>Value: {{ movieForm.value | json }}
+      <br>Genre Errors: {{ movieForm.get('genre').errors | json }}
+    </p-panel>
+  </form>
+  <br>{{ message | json }}
+</p-panel>
