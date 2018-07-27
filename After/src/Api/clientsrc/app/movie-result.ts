@@ -3,7 +3,7 @@
 export interface Movie {
   id: string;
   name: string;
-  genre: string;
+  LicensingModel: number;
 }
 
 export interface MovieResult {
@@ -14,6 +14,6 @@ export interface MovieResult {
 
 export class CreateMovieDto {
   public name: string;
-  public genre: string;
+  public LicensingModel: number;
 }
 

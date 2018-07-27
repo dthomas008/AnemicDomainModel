@@ -47,9 +47,9 @@ export class MovieFormComponent implements OnInit, AfterViewInit {
       Validators.minLength(3),
       Validators.maxLength(50)]],
       // re-use the create logic in value objects for validation See CommonValidators Class
-      genre: ['', [Validators.required,
-        Validators.minLength(5),
-      Validators.maxLength(20)]]
+      LicensingModel: [0, [Validators.required,
+        Validators.minLength(1),
+      Validators.maxLength(2)]]
     });
 
     const oldForm = this.wipServ.loadWipEntity(this.formKey);
@@ -76,7 +76,6 @@ export class MovieFormComponent implements OnInit, AfterViewInit {
       // this is the traditional way to do it.
       // Maybe using the domain objects is what we really want
       const c = Object.assign({}, mov, this.movieForm.value);
-      console.log(c);
       this.movServ.createMovie(c)
         .subscribe(
           (data) => {

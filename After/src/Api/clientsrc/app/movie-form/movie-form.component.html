@@ -16,17 +16,17 @@
       </span>
     </div>
     <div class="ui-g">
-      <label class="ui-g-2" for="name">Genre: </label>
+      <label class="ui-g-2" for="LicensingModel">Licensing Model: </label>
       <!-- <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span> -->
-      <input class="ui-g-4" type="text" pInputText id="genre" placeholder="Genre" formControlName="genre" />
-      <span class="ui-g-6" *ngIf="(movieForm.get('genre').touched ||
-        movieForm.get('genre').dirty) &&
-        movieForm.get('genre').errors">
-        <span *ngIf="movieForm.get('genre').errors.required">
-          Please enter a genre.
+      <input class="ui-g-4" type="text" pInputText id="LicensingModel" placeholder="Licensing Model" formControlName="LicensingModel" />
+      <span class="ui-g-6" *ngIf="(movieForm.get('LicensingModel').touched ||
+        movieForm.get('LicensingModel').dirty) &&
+        movieForm.get('LicensingModel').errors">
+        <span *ngIf="movieForm.get('LicensingModel').errors.required">
+          Please enter a licensing model.
         </span>
-        <span *ngIf="movieForm.get('genre').errors.minlength">
-          The first name must be longer than 5 characters.
+        <span *ngIf="movieForm.get('LicensingModel').errors.minlength">
+          The first name must be longer than 1 characters.
         </span>
       </span>
     </div>
@@ -39,7 +39,7 @@
       <br>Touched: {{ movieForm.touched }}
       <br>Valid: {{ movieForm.valid }}
       <br>Value: {{ movieForm.value | json }}
-      <br>Genre Errors: {{ movieForm.get('genre').errors | json }}
+      <br>Licensing Model Errors: {{ movieForm.get('LicensingModel').errors | json }}
     </p-panel>
   </form>
   <br>{{ message | json }}

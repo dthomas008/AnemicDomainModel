@@ -17,7 +17,6 @@ export class MovieService {
     return this.http.get<Envelope<Movie>>('api/movies/' + id);
   }
   createMovie(movie: CreateMovieDto): Observable<MovieResult>  {
-    console.log(movie);
     return this.http.post<MovieResult>('api/movies', movie);
   }
   updateMovie(id: string, movie: CreateMovieDto): Observable<MovieResult>  {
